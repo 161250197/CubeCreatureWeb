@@ -1,52 +1,119 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-defineProps<{ msg: string }>()
-
-const count = ref(0)
+const logoCount = ref(10);
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
-
-  <p>
-    Recommended IDE setup:
-    <a href="https://code.visualstudio.com/" target="_blank">VS Code</a>
-    +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
-
-  <p>See <code>README.md</code> for more information.</p>
-
-  <p>
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">
-      Vite Docs
-    </a>
-    |
-    <a href="https://v3.vuejs.org/" target="_blank">Vue 3 Docs</a>
-  </p>
-
-  <button type="button" @click="count++">count is: {{ count }}</button>
-  <p>
-    Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
-  </p>
+  <h1>今天你也很可爱！</h1>
+  <img v-for="i of logoCount" class="logo" :class="`meteor-${ i }`" :alt="`Vue logo No.${ i }`"
+    src="../assets/logo.png" />
 </template>
 
-<style scoped>
-a {
-  color: #42b983;
+<style scoped lang="less">
+h1 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: -2em;
+  z-index: 1;
 }
 
-label {
-  margin: 0 0.5em;
-  font-weight: bold;
+// #region 流星特效
+@meteorCount: 10;
+
+.logo {
+  position: absolute;
+  left: -100%;
 }
 
-code {
-  background-color: #eee;
-  padding: 2px 4px;
-  border-radius: 4px;
-  color: #304455;
+#fromLeftMap() {
+  @1: 100;
+  @2: 40;
+  @3: 160;
+  @4: 30;
+  @5: 70;
+  @6: 120;
+  @7: 20;
+  @8: 150;
+  @9: 90;
+  @10: 130;
 }
+
+#widthMap() {
+  @1: 50;
+  @2: 60;
+  @3: 50;
+  @4: 30;
+  @5: 60;
+  @6: 40;
+  @7: 30;
+  @8: 30;
+  @9: 50;
+  @10: 40;
+}
+
+.keyframesFunction(@cartoonName, @index) {
+  @fromLeft: #fromLeftMap[@@index];
+  @toLeft: @fromLeft - 100;
+
+  @keyframes @cartoonName {
+    from {
+      left: e(%("%s%", @fromLeft));
+      top: 0;
+    }
+
+    to {
+      left: e(%("%s%", @toLeft));
+      top: 100%;
+    }
+  }
+}
+
+each(range(@meteorCount), {
+    @cartoonName: e(%("meteor-%s", @value));
+    @deley: e(%("%ss", ((@value - 1) / 2)));
+    @width: #widthMap[@@value];
+
+    .@{cartoonName} {
+      animation: 3s linear @deley infinite running @cartoonName,
+      3s linear infinite running rotate;
+      width: e(%("%spx", @width));
+    }
+
+    .keyframesFunction(@cartoonName, @value);
+  }
+
+);
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  50% {
+    transform: rotate(-180deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+
+  50% {
+    transform: rotate(-180deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+// #endregion
 </style>
