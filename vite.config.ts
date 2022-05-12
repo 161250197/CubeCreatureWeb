@@ -9,6 +9,7 @@ export default defineConfig({
   plugins: [
     vue(),
     AutoImport({
+      imports: ['vue', 'vuex'],
       resolvers: [ElementPlusResolver()],
     }),
     Components({
@@ -17,6 +18,6 @@ export default defineConfig({
   ],
   base: '/CubeCreatureWeb/',
   build: {
-    outDir: 'docs'
+    outDir: 'docs',
   }
 });

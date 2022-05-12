@@ -5,15 +5,21 @@
     <el-tab-pane label="Role" name="third">Role</el-tab-pane>
     <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
   </el-tabs>
+  <span>count: {{ count }}</span>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
 import type { TabsPaneContext } from 'element-plus';
+import { STORE_KEY } from '../store';
+import { INCREMENT } from '../store/mutation-types';
 
 const activeName = ref('first');
+const store = useStore(STORE_KEY);
+const count = computed(() => store.state.count);
+
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event);
+  store.commit(INCREMENT);
 };
 </script>
 <style>
