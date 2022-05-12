@@ -11,5 +11,6 @@ body,
   height: 100%;
   overflow: hidden;
   margin: 0;
+  position: fixed;
 }
 </style>

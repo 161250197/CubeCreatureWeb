@@ -18,6 +18,7 @@ h1 {
   transform: translate(-50%, -50%);
   margin-top: -2em;
   z-index: 1;
+  word-break: keep-all;
 }
 
 // #region 流星特效
