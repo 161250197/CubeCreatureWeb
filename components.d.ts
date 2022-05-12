@@ -5,10 +5,13 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    DevTools: typeof import('./src/components/DevTools.vue')['default']
+    AddCube: typeof import('./src/components/DevTools/AddCube.vue')['default']
+    DeleteCube: typeof import('./src/components/DevTools/DeleteCube.vue')['default']
+    DevTools: typeof import('./src/components/DevTools/index.vue')['default']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    MoveCube: typeof import('./src/components/DevTools/MoveCube.vue')['default']
   }
 }
 
