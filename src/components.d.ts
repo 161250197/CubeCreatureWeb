@@ -5,17 +5,17 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AddCube: typeof import('./src/components/DevTools/AddCube.vue')['default']
-    DeleteCube: typeof import('./src/components/DevTools/DeleteCube.vue')['default']
-    DevTools: typeof import('./src/components/DevTools/index.vue')['default']
+    AddCube: typeof import('./components/DevTools/AddCube.vue')['default']
+    DeleteCube: typeof import('./components/DevTools/DeleteCube.vue')['default']
+    DevTools: typeof import('./components/DevTools/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElSlider: typeof import('element-plus/es')['ElSlider']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    MoveCube: typeof import('./src/components/DevTools/MoveCube.vue')['default']
+    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    MoveCube: typeof import('./components/DevTools/MoveCube.vue')['default']
   }
 }
 

@@ -12,5 +12,6 @@ body,
   overflow: hidden;
   margin: 0;
   position: fixed;
+  user-select: none;
 }
 </style>
