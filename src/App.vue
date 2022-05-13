@@ -1,5 +1,6 @@
 <template>
   <!-- <HelloWorld /> -->
+  <Playground />
   <DevTools />
 </template>
 
