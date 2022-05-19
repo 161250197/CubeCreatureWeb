@@ -30,22 +30,37 @@
 </template>
 
 <script setup lang="ts">
-const step = ref(1);
-const min = ref(1);
-const max = ref(7);
+import { getStore } from '../../store';
+import { ADD_CUDE } from '../../store/mutation-types';
+import { createCube } from '../../util/cube';
+
+const step = 1;
+const min = 1;
+const max = 7;
+
 const x = ref(1);
 const y = ref(1);
 const z = ref(1);
+
 const colors = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#B13DA0'];
 const selectedColor = ref(colors[0]);
+
+const store = getStore();
+const cubes = computed(() => store.state.cubes);
+
 function onAddClick() {
-  // TODO
-  console.log('test');
+  const newCube = createCube(x.value, y.value, z.value, selectedColor.value);
+  store.commit(ADD_CUDE, newCube);
 }
+
 function invalidPosition(x: number, y: number, z: number) {
-  // TODO
-  console.log(x, y, z);
-  return x === 2;
+  const cubesValue = cubes.value;
+  for (const cube of cubesValue) {
+    if (cube.x === x && cube.y === y && cube.z === z) {
+      return true;
+    }
+  }
+  return false;
 }
 </script>
 

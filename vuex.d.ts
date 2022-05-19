@@ -5,7 +5,15 @@ declare module '@vue/runtime-core' {
   // declare your own store states
   interface State {
     count: number;
+    cubes: Cube[];
   }
+
+  type Cube = {
+    x: number;
+    y: number;
+    z: number;
+    color: string;
+  };
 
   // provide typings for `this.$store`
   interface ComponentCustomProperties {

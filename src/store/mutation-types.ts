@@ -1,1 +1,2 @@
-export const INCREMENT = 'INCREMENT';
+export const INCREMENT = 'increment';
+export const ADD_CUDE = 'addCude';

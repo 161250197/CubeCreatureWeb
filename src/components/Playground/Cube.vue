@@ -1,5 +1,7 @@
 <template>
-  <div class="cube" :style="colorStyle">
+  <!-- TODO 调整方块位置 -->
+  <span>{{ cube }}</span>
+  <div class="cube" :style="cubeStyle">
     <span class="face front"></span>
     <span class="face left"></span>
     <span class="face top"></span>
@@ -41,8 +43,14 @@
 </template>
 
 <script setup lang="ts">
-const color = ref("rgb(64, 158, 255)");
-const colorStyle = computed(() => `--background: ${ color.value };`);
+import { Cube } from 'vue';
+const props = defineProps({
+  cube: Object // 暂时不支持复杂对象类型
+});
+const cube = (props.cube) as Cube;
+// const color = ref("rgb(64, 158, 255)");
+// TODO 位置 使用 less 生成 7 * 7 * 7 个类？
+const cubeStyle = `--background: ${ cube.color };`;
 </script>
 
 <style scoped lang="less">
