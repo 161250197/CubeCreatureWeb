@@ -32,11 +32,11 @@
 <script setup lang="ts">
 import { getStore } from '../../store';
 import { ADD_CUDE } from '../../store/mutation-types';
-import { createCube } from '../../util/cube';
+import { createCube, cubeRowCount } from '../../util/cube';
 
 const step = 1;
 const min = 1;
-const max = 7;
+const max = cubeRowCount;
 
 const x = ref(1);
 const y = ref(1);
