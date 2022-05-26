@@ -14,12 +14,13 @@
   <div class="wrapper">
     <span class="label color-label">颜色</span>
     <div class="color-wrapper">
-      <span v-for="color of cubeColors" class="color-span" :style="{ background: color }"
-        :class="{ selected: color === selectedColor }" @click="onSelectedColorChange(color)">
-        <el-icon :size="25" color="lightgrey">
-          <Check />
-        </el-icon>
-      </span>
+      <el-button v-for="color of cubeColors" :color="color" size="large" circle @click="onSelectedColorChange(color)">
+        <template #icon v-if="color === selectedColor">
+          <el-icon :size="20">
+            <Check />
+          </el-icon>
+        </template>
+      </el-button>
     </div>
   </div>
   <el-divider />
@@ -34,6 +35,7 @@ import { Cube } from 'vue';
 import { getStore } from '../../store';
 import { ADD_CUDE, SET_ADD_CUBE } from '../../store/mutation-types';
 import { createCube, cubeRowCount, cubeColors, defaultCubeColor } from '../../util/cube';
+import { Check } from '@element-plus/icons-vue';
 
 const step = 1;
 const min = 1;
@@ -86,15 +88,6 @@ function onSelectedColorChange(color: string) {
     &.color-label {
       width: 100px;
     }
-
-    &.invalid-warning {
-      margin-left: 20px;
-      width: auto;
-    }
-  }
-
-  .el-slider {
-    margin-top: 0;
   }
 
   .color-wrapper {
@@ -102,30 +95,6 @@ function onSelectedColorChange(color: string) {
     align-items: center;
     justify-content: space-between;
     flex: 1;
-
-    .color-span {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      box-sizing: border-box;
-      cursor: pointer;
-      margin: 0 10px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-
-      .el-icon {
-        display: none;
-      }
-
-      &.selected {
-        border: 2px solid lightgrey;
-
-        .el-icon {
-          display: block;
-        }
-      }
-    }
   }
 }
 </style>
