@@ -6,6 +6,7 @@ declare module '@vue/runtime-core' {
   interface State {
     count: number;
     cubes: Cube[];
+    addCube: Cube;
   }
 
   type Cube = {

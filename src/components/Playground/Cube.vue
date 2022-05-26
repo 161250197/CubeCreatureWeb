@@ -1,8 +1,8 @@
 <template>
-  <div class="cube" :style="{ left, top, zIndex }">
-    <span class="face front" :style="{ background: color }"></span>
-    <span class="face left" :style="{ background: color }"></span>
-    <span class="face top" :style="{ background: color }"></span>
+  <div class="cube" :style="{ left, top, zIndex }" :class="{ 'add-prompt': isAddCube }">
+    <span class="face front" :style="{ background }"></span>
+    <span class="face left" :style="{ background }"></span>
+    <span class="face top" :style="{ background }"></span>
   </div>
 </template>
 
@@ -10,30 +10,36 @@
 import { Cube } from 'vue';
 import { cubeRowCount } from '../../util/cube';
 const props = defineProps({
-  cube: Object // 暂时不支持复杂对象类型
+  cube: Object, // 暂时不支持复杂对象类型
+  isAddCube: Boolean
 });
-const cube = (props.cube) as Cube;
 
-const { x, y, z, color } = cube;
-const left = pxSuffix(calLeft());
-const top = pxSuffix(calTop());
-const zIndex = x * cubeRowCount * cubeRowCount + y * cubeRowCount + z;
-
-function pxSuffix(num: number) {
-  return `${ num }px`;
-}
-
-function calLeft() {
+const left = computed(() => {
+  const { x, y } = (props.cube) as Cube;
   const xRange = 19;
   const yRange = 35;
-  return 400 + xRange * (x - 1) - yRange * (y - 1);
-}
+  const left = 400 + xRange * x - yRange * y;
+  return pxSuffix(left);
+});
 
-function calTop() {
+const top = computed(() => {
+  const { x, y, z } = (props.cube) as Cube;
   const xRange = 12;
   const yRange = 6.5;
   const zRange = 38;
-  return 400 + xRange * (x - 1) + yRange * (y - 1) - zRange * (z - 1);
+  const top = 400 + xRange * x + yRange * y - zRange * z;
+  return pxSuffix(top);
+});
+
+const background = computed(() => ((props.cube) as Cube).color);
+
+const zIndex = computed(() => {
+  const { x, y, z } = (props.cube) as Cube;
+  return x * cubeRowCount * cubeRowCount + y * cubeRowCount + z;
+});
+
+function pxSuffix(num: number) {
+  return `${ num }px`;
 }
 </script>
 
@@ -46,6 +52,13 @@ function calTop() {
   transform-style: preserve-3d;
   transform: rotate3d(1, 0, 0, 340deg) rotate3d(0, 1, 0, 30deg);
   position: absolute;
+
+  &.add-prompt {
+    .face {
+      opacity: 0.5;
+      filter: brightness(1.5);
+    }
+  }
 
   .face {
     display: flex;

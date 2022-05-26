@@ -1,21 +1,21 @@
 <template>
   <div class="wrapper">
     <span class="label">X</span>
-    <el-slider v-model="x" :step="step" :min="min" :max="max" show-stops show-input />
+    <el-slider v-model="x" :step="step" :min="min" :max="max" show-stops show-input @input="updateAddCube" />
   </div>
   <div class="wrapper">
     <span class="label">Y</span>
-    <el-slider v-model="y" :step="step" :min="min" :max="max" show-stops show-input />
+    <el-slider v-model="y" :step="step" :min="min" :max="max" show-stops show-input @input="updateAddCube" />
   </div>
   <div class="wrapper">
     <span class="label">Z</span>
-    <el-slider v-model="z" :step="step" :min="min" :max="max" show-stops show-input />
+    <el-slider v-model="z" :step="step" :min="min" :max="max" show-stops show-input @input="updateAddCube" />
   </div>
   <div class="wrapper">
     <span class="label color-label">颜色</span>
     <div class="color-wrapper">
-      <span v-for="color of colors" class="color-span" :style="{ background: color }"
-        :class="{ selected: color === selectedColor }" @click="selectedColor = color">
+      <span v-for="color of cubeColors" class="color-span" :style="{ background: color }"
+        :class="{ selected: color === selectedColor }" @click="onSelectedColorChange(color)">
         <el-icon :size="25" color="lightgrey">
           <Check />
         </el-icon>
@@ -24,15 +24,16 @@
   </div>
   <el-divider />
   <div class="wrapper">
-    <el-button v-if="invalidPosition(x, y, z)" type="warning" size="large" disabled plain>该位置上已有方块</el-button>
+    <el-button v-if="invalidPosition" type="warning" size="large" disabled plain>该位置上已有方块</el-button>
     <el-button v-else type="primary" size="large" @click="onAddClick">添加方块</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { Cube } from 'vue';
 import { getStore } from '../../store';
-import { ADD_CUDE } from '../../store/mutation-types';
-import { createCube, cubeRowCount } from '../../util/cube';
+import { ADD_CUDE, SET_ADD_CUBE } from '../../store/mutation-types';
+import { createCube, cubeRowCount, cubeColors, defaultCubeColor } from '../../util/cube';
 
 const step = 1;
 const min = 1;
@@ -42,25 +43,29 @@ const x = ref(1);
 const y = ref(1);
 const z = ref(1);
 
-const colors = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#B13DA0'];
-const selectedColor = ref(colors[0]);
+const selectedColor = ref(defaultCubeColor);
 
 const store = getStore();
-const cubes = computed(() => store.state.cubes);
+const invalidPosition = computed(() => store.getters.invalidPosition);
+
+function updateAddCube() {
+  const addCubePosition: Cube = {
+    x: unref(x) - 1,
+    y: unref(y) - 1,
+    z: unref(z) - 1,
+    color: unref(selectedColor)
+  };
+  store.commit(SET_ADD_CUBE, addCubePosition);
+}
 
 function onAddClick() {
-  const newCube = createCube(x.value, y.value, z.value, selectedColor.value);
+  const newCube = createCube(unref(x) - 1, unref(y) - 1, unref(z) - 1, unref(selectedColor));
   store.commit(ADD_CUDE, newCube);
 }
 
-function invalidPosition(x: number, y: number, z: number) {
-  const cubesValue = cubes.value;
-  for (const cube of cubesValue) {
-    if (cube.x === x && cube.y === y && cube.z === z) {
-      return true;
-    }
-  }
-  return false;
+function onSelectedColorChange(color: string) {
+  selectedColor.value = color;
+  updateAddCube();
 }
 </script>
 
