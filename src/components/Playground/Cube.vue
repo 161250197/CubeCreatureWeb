@@ -1,5 +1,5 @@
 <template>
-  <div class="cube" :style="{ left, top, zIndex }" :class="{ 'prompt': isPromptCube }">
+  <div class="cube" :style="{ left, top, zIndex }" :class="{ 'prompt': isPromptCube, 'selected': isSelected }">
     <span class="face front" :style="{ background }"></span>
     <span class="face left" :style="{ background }"></span>
     <span class="face top" :style="{ background }"></span>
@@ -8,7 +8,6 @@
 
 <script setup lang="ts">
 import { Cube } from 'vue';
-import { CubeState } from '../../util/constant';
 import { cubeRowCount } from '../../util/cube';
 const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型
@@ -32,7 +31,8 @@ const top = computed(() => {
 });
 
 const background = computed(() => ((props.cube) as Cube).color);
-const isPromptCube = computed(() => ((props.cube) as Cube).state === CubeState.prompt);
+const isPromptCube = computed(() => ((props.cube) as Cube).isPrompt);
+const isSelected = computed(() => ((props.cube) as Cube).isSelected);
 
 const zIndex = computed(() => {
   const { x, y, z } = (props.cube) as Cube;
@@ -58,8 +58,21 @@ function pxSuffix(num: number) {
     z-index: 1000 !important;
 
     .face {
-      opacity: 0.5;
       filter: brightness(1.5);
+    }
+  }
+
+  &.selected {
+    .face {
+      opacity: 1;
+      filter: brightness(0.8);
+      box-shadow: lightgrey -1px -1px 10px 0px, inset lightgrey -1px -1px 1px 0px;
+    }
+  }
+
+  &.prompt {
+    .face {
+      opacity: 0.5;
     }
   }
 
@@ -71,7 +84,7 @@ function pxSuffix(num: number) {
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
-    box-shadow: lightgrey -1px -1px 1px 0px;
+    box-shadow: lightgrey -1px -1px 1px 0px, inset lightgrey -1px -1px 1px 0px;
     opacity: 0.8;
   }
 

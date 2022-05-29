@@ -35,7 +35,6 @@ import { getStore } from '../../store/store';
 import { ADD_CUDE, SET_ADD_CUBE } from '../../store/mutation-types';
 import { createCube, cubeRowCount, cubeColors, defaultCubeColor } from '../../util/cube';
 import { Check } from '@element-plus/icons-vue';
-import { CubeState } from '../../util/constant';
 
 const step = 1;
 const min = 1;
@@ -51,7 +50,7 @@ const store = getStore();
 const invalidPosition = computed(() => store.getters.invalidPosition);
 
 function updateAddCube() {
-  const addCube = createCube(unref(x) - 1, unref(y) - 1, unref(z) - 1, unref(selectedColor), CubeState.prompt);
+  const addCube = createCube(unref(x) - 1, unref(y) - 1, unref(z) - 1, unref(selectedColor), true);
   store.commit(SET_ADD_CUBE, addCube);
 }
 

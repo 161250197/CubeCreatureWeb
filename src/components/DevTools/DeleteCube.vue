@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { Cube } from 'vue';
-import { SET_CUBE_STATE_BASE, SET_CUBE_STATE_PROMPT } from '../../store/mutation-types';
+import { SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED } from '../../store/mutation-types';
 import { getStore } from '../../store/store';
 
 const store = getStore();
@@ -46,14 +46,15 @@ function onRemoveClick() {
 
 function handleSelectionChange(selectedCubes: Cube[]) {
   deleteCubes.value = selectedCubes;
+  store.commit(SET_CUBES_IS_SELECTED, selectedCubes);
 }
 
-function onCellMouseEnter(row: Cube) {
-  store.commit(SET_CUBE_STATE_PROMPT, row);
+function onCellMouseEnter(cube: Cube) {
+  store.commit(SET_CUBE_IS_PROMPT, { cube, isPrompt: true });
 }
 
-function onCellMouseLeave(row: Cube) {
-  store.commit(SET_CUBE_STATE_BASE, row);
+function onCellMouseLeave(cube: Cube) {
+  store.commit(SET_CUBE_IS_PROMPT, { cube, isPrompt: false });
 }
 </script>
 

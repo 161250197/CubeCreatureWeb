@@ -1,12 +1,13 @@
 // vuex.d.ts
 import { Store } from 'vuex';
-import { CubeState, DevToolTabs } from './src/util/constant';
+import { DevToolTabs } from './src/util/constant';
 
 declare module '@vue/runtime-core' {
   // declare your own store states
   interface State {
     count: number;
     cubes: Cube[];
+    cubeMap: Map<string, Cube>,
     addCube: Cube;
     devToolTab: DevToolTabs;
   }
@@ -16,7 +17,8 @@ declare module '@vue/runtime-core' {
     y: number;
     z: number;
     color: string;
-    state: CubeState;
+    isPrompt: boolean;
+    isSelected: boolean;
   };
 
   // provide typings for `this.$store`
