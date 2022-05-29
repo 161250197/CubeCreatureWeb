@@ -31,11 +31,11 @@
 </template>
 
 <script setup lang="ts">
-import { Cube } from 'vue';
 import { getStore } from '../../store/store';
 import { ADD_CUDE, SET_ADD_CUBE } from '../../store/mutation-types';
 import { createCube, cubeRowCount, cubeColors, defaultCubeColor } from '../../util/cube';
 import { Check } from '@element-plus/icons-vue';
+import { CubeState } from '../../util/constant';
 
 const step = 1;
 const min = 1;
@@ -51,13 +51,8 @@ const store = getStore();
 const invalidPosition = computed(() => store.getters.invalidPosition);
 
 function updateAddCube() {
-  const addCubePosition: Cube = {
-    x: unref(x) - 1,
-    y: unref(y) - 1,
-    z: unref(z) - 1,
-    color: unref(selectedColor)
-  };
-  store.commit(SET_ADD_CUBE, addCubePosition);
+  const addCube = createCube(unref(x) - 1, unref(y) - 1, unref(z) - 1, unref(selectedColor), CubeState.prompt);
+  store.commit(SET_ADD_CUBE, addCube);
 }
 
 function onAddClick() {

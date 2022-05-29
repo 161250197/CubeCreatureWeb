@@ -1,5 +1,6 @@
 // vuex.d.ts
 import { Store } from 'vuex';
+import { CubeState, DevToolTabs } from './src/util/constant';
 
 declare module '@vue/runtime-core' {
   // declare your own store states
@@ -7,6 +8,7 @@ declare module '@vue/runtime-core' {
     count: number;
     cubes: Cube[];
     addCube: Cube;
+    devToolTab: DevToolTabs;
   }
 
   type Cube = {
@@ -14,6 +16,7 @@ declare module '@vue/runtime-core' {
     y: number;
     z: number;
     color: string;
+    state: CubeState;
   };
 
   // provide typings for `this.$store`

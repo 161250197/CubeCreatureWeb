@@ -1,5 +1,5 @@
 <template>
-  <div class="cube" :style="{ left, top, zIndex }" :class="{ 'add-prompt': isAddCube }">
+  <div class="cube" :style="{ left, top, zIndex }" :class="{ 'prompt': isPromptCube }">
     <span class="face front" :style="{ background }"></span>
     <span class="face left" :style="{ background }"></span>
     <span class="face top" :style="{ background }"></span>
@@ -8,10 +8,10 @@
 
 <script setup lang="ts">
 import { Cube } from 'vue';
+import { CubeState } from '../../util/constant';
 import { cubeRowCount } from '../../util/cube';
 const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型
-  isAddCube: Boolean
 });
 
 const left = computed(() => {
@@ -32,6 +32,7 @@ const top = computed(() => {
 });
 
 const background = computed(() => ((props.cube) as Cube).color);
+const isPromptCube = computed(() => ((props.cube) as Cube).state === CubeState.prompt);
 
 const zIndex = computed(() => {
   const { x, y, z } = (props.cube) as Cube;
@@ -53,7 +54,9 @@ function pxSuffix(num: number) {
   transform: rotate3d(1, 0, 0, 340deg) rotate3d(0, 1, 0, 30deg);
   position: absolute;
 
-  &.add-prompt {
+  &.prompt {
+    z-index: 1000 !important;
+
     .face {
       opacity: 0.5;
       filter: brightness(1.5);

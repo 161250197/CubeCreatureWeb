@@ -1,33 +1,28 @@
 <template>
-  <el-tabs model-value="0" class="dev-tools-tabs">
-    <!-- @tab-click="handleClick"> -->
-    <el-tab-pane label="添加">
+  <el-tabs model-value="0" class="dev-tools-tabs" @tab-click="handleClick">
+    <el-tab-pane :label="DevToolTabs.add">
       <AddCube />
     </el-tab-pane>
-    <el-tab-pane label="删除">
+    <el-tab-pane :label="DevToolTabs.remove">
       <DeleteCube />
     </el-tab-pane>
-    <el-tab-pane label="滑动">
+    <el-tab-pane :label="DevToolTabs.move">
       <MoveCube />
     </el-tab-pane>
   </el-tabs>
   <!-- <span>count: {{ count }}</span> -->
 </template>
 <script lang="ts" setup>
-// import type { TabsPaneContext } from 'element-plus';
-// import AddCube from './AddCube.vue';
-// import { STORE_KEY } from '../../store';
-// import { INCREMENT } from '../../store/mutation-types';
+import type { TabsPaneContext } from 'element-plus';
+import { DevToolTabs } from '../../util/constant';
+import { getStore } from '../../store/store';
+import { SET_DEV_TOOL_TAB } from '../../store/mutation-types';
 
-// const store = useStore(STORE_KEY);
-// const count = computed(() => store.state.count);
+const store = getStore();
 
-// const activeName = ref('first');
-
-// const handleClick = (tab: TabsPaneContext, event: Event) => {
-//   console.log(tab, event);
-//   // store.commit(INCREMENT);
-// };
+const handleClick = (tab: TabsPaneContext) => {
+  store.commit(SET_DEV_TOOL_TAB, tab.props.label);
+};
 </script>
 
 <style scoped lang="less">

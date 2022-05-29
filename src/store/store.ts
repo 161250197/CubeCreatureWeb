@@ -1,8 +1,9 @@
 // store.ts
 import { InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
-import { defaultAddCube } from '../util/cube';
-import { INCREMENT, ADD_CUDE, SET_ADD_CUBE } from './mutation-types';
+import { CubeState, DevToolTabs } from '../util/constant';
+import { defaultAddCube, findCubeIndex, findCube } from '../util/cube';
+import { INCREMENT, ADD_CUDE, SET_ADD_CUBE, SET_CUBE_STATE_BASE, SET_CUBE_STATE_PROMPT, SET_DEV_TOOL_TAB } from './mutation-types';
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
@@ -11,17 +12,15 @@ export const store = createStore<State>({
   state: {
     count: 0,
     cubes: [],
-    addCube: defaultAddCube
+    addCube: defaultAddCube,
+    devToolTab: DevToolTabs.add,
   },
   getters: {
     invalidPosition({ cubes, addCube }) {
-      const { x, y, z } = addCube;
-      for (const cube of cubes) {
-        if (cube.x === x && cube.y === y && cube.z === z) {
-          return true;
-        }
-      }
-      return false;
+      return findCubeIndex(addCube, cubes) >= 0;
+    },
+    devToolTabIsAdd({ devToolTab }) {
+      return devToolTab === DevToolTabs.add;
     }
   },
   mutations: {
@@ -33,6 +32,17 @@ export const store = createStore<State>({
     },
     [SET_ADD_CUBE](state, addCube) {
       state.addCube = { ...addCube };
+    },
+    [SET_CUBE_STATE_BASE](state, cube) {
+      const c = findCube(cube, state.cubes);
+      c.state = CubeState.base;
+    },
+    [SET_CUBE_STATE_PROMPT](state, cube) {
+      const c = findCube(cube, state.cubes);
+      c.state = CubeState.prompt;
+    },
+    [SET_DEV_TOOL_TAB](state, devToolTab) {
+      state.devToolTab = devToolTab;
     }
   },
   strict: process.env.NODE_ENV !== 'production'
