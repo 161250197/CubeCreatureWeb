@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { getStore } from '../../store';
+import { getStore } from '../../store/store';
 const store = getStore();
 const cubes = computed(() => store.state.cubes);
 const addCube = computed(() => store.state.addCube);

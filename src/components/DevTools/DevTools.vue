@@ -1,5 +1,6 @@
 <template>
-  <el-tabs model-value="0" class="dev-tools-tabs" @tab-click="handleClick">
+  <el-tabs model-value="0" class="dev-tools-tabs">
+    <!-- @tab-click="handleClick"> -->
     <el-tab-pane label="添加">
       <AddCube />
     </el-tab-pane>
@@ -13,8 +14,8 @@
   <!-- <span>count: {{ count }}</span> -->
 </template>
 <script lang="ts" setup>
-import type { TabsPaneContext } from 'element-plus';
-import AddCube from './AddCube.vue';
+// import type { TabsPaneContext } from 'element-plus';
+// import AddCube from './AddCube.vue';
 // import { STORE_KEY } from '../../store';
 // import { INCREMENT } from '../../store/mutation-types';
 
@@ -23,10 +24,10 @@ import AddCube from './AddCube.vue';
 
 // const activeName = ref('first');
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event);
-  // store.commit(INCREMENT);
-};
+// const handleClick = (tab: TabsPaneContext, event: Event) => {
+//   console.log(tab, event);
+//   // store.commit(INCREMENT);
+// };
 </script>
 
 <style scoped lang="less">

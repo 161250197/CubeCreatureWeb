@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { Cube } from 'vue';
-import { getStore } from '../../store';
+import { getStore } from '../../store/store';
 import { ADD_CUDE, SET_ADD_CUBE } from '../../store/mutation-types';
 import { createCube, cubeRowCount, cubeColors, defaultCubeColor } from '../../util/cube';
 import { Check } from '@element-plus/icons-vue';
