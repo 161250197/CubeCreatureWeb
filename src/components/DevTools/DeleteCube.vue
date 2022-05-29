@@ -24,9 +24,9 @@
     </el-table-column>
   </el-table>
   <el-divider />
-  <div class="wrapper" v-if="deleteCubeCount">
-    <el-button type="primary" size="large" @click="onRemoveClick">删除 {{ deleteCubeCount }} 个方块</el-button>
-  </div>
+  <el-button v-if="deleteCubeCount" type="primary" size="large" @click="onRemoveClick">删除 {{ deleteCubeCount }} 个方块
+  </el-button>
+  <el-button v-else type="warning" size="large" disabled plain>请先选择要删除的方块</el-button>
 </template>
 
 <script setup lang="ts">
