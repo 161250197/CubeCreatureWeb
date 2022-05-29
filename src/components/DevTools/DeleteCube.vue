@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { Cube } from 'vue';
-import { SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED } from '../../store/mutation-types';
+import { SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES } from '../../store/mutation-types';
 import { getStore } from '../../store/store';
 
 const store = getStore();
@@ -40,8 +40,7 @@ const deleteCubes = ref<Cube[]>([]);
 const deleteCubeCount = computed(() => deleteCubes.value.length);
 
 function onRemoveClick() {
-  // TODO
-  console.log('onRemoveClick');
+  store.dispatch(DELETE_CUBES, deleteCubes.value);
 }
 
 function handleSelectionChange(selectedCubes: Cube[]) {

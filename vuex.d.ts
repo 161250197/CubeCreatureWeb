@@ -7,9 +7,11 @@ declare module '@vue/runtime-core' {
   interface State {
     count: number;
     cubes: Cube[];
+    deleteCubes: Cube[];
     cubeMap: Map<string, Cube>,
     addCube: Cube;
     devToolTab: DevToolTabs;
+    showCover: boolean;
   }
 
   type Cube = {

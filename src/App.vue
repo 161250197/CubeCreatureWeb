@@ -2,6 +2,7 @@
   <!-- <HelloWorld /> -->
   <Playground />
   <DevTools />
+  <Cover />
 </template>
 
 <style>

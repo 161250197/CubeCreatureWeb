@@ -1,5 +1,6 @@
 <template>
-  <div class="cube" :style="{ left, top, zIndex }" :class="{ 'prompt': isPromptCube, 'selected': isSelected }">
+  <div class="cube" :style="{ left, top, zIndex }"
+    :class="{ 'prompt': isPromptCube, 'selected': isSelected, 'to-delete': isToDelete }">
     <span class="face front" :style="{ background }"></span>
     <span class="face left" :style="{ background }"></span>
     <span class="face top" :style="{ background }"></span>
@@ -11,6 +12,8 @@ import { Cube } from 'vue';
 import { cubeRowCount } from '../../util/cube';
 const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型
+  /** 将要删除 */
+  isToDelete: Boolean,
 });
 
 const left = computed(() => {
@@ -76,6 +79,12 @@ function pxSuffix(num: number) {
     }
   }
 
+  &.to-delete {
+    .face {
+      animation: delete 0.5s linear 0s 1 forwards;
+    }
+  }
+
   .face {
     display: flex;
     align-items: center;
@@ -100,6 +109,20 @@ function pxSuffix(num: number) {
   .top {
     transform: rotateX(90deg) translateZ((@size / 2));
     filter: brightness(0.9);
+  }
+}
+
+@keyframes delete {
+  from {
+    opacity: 0.8;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 </style>
