@@ -37,12 +37,12 @@ import { createCube, cubeRowCount, cubeColors, defaultCubeColor } from '../../ut
 import { Check } from '@element-plus/icons-vue';
 
 const step = 1;
-const min = 1;
-const max = cubeRowCount;
+const min = 0;
+const max = cubeRowCount - 1;
 
-const x = ref(1);
-const y = ref(1);
-const z = ref(1);
+const x = ref(0);
+const y = ref(0);
+const z = ref(0);
 
 const selectedColor = ref(defaultCubeColor);
 
@@ -50,12 +50,12 @@ const store = getStore();
 const invalidPosition = computed(() => store.getters.invalidPosition);
 
 function updateAddCube() {
-  const addCube = createCube(unref(x) - 1, unref(y) - 1, unref(z) - 1, unref(selectedColor), true);
+  const addCube = createCube(unref(x), unref(y), unref(z), unref(selectedColor), true);
   store.commit(SET_ADD_CUBE, addCube);
 }
 
 function onAddClick() {
-  const newCube = createCube(unref(x) - 1, unref(y) - 1, unref(z) - 1, unref(selectedColor));
+  const newCube = createCube(unref(x), unref(y), unref(z), unref(selectedColor));
   store.commit(ADD_CUDE, newCube);
 }
 

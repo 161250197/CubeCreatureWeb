@@ -12,6 +12,7 @@ export const SET_CUBE_MOVE_DISTANCE = 'setCubeMoveDistance';
 export const SET_CUBE_MOVE_DELAY = 'setCubeMoveDelay';
 export const MOVE_CUBE = 'moveCube';
 export const RESET_MOVE_CUBE = 'resetMoveCube';
+export const RESET_DELETE_CUBES = 'resetDeleteCubes';
 
 // action
 export const DELETE_CUBES_ACTION = 'deleteCubesAction';

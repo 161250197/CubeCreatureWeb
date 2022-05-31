@@ -3,7 +3,7 @@ import { Cube, InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
 import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection } from '../util/constant';
 import { defaultAddCube, createCubeKey } from '../util/cube';
-import { INCREMENT, ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE } from './mutation-types';
+import { INCREMENT, ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES } from './mutation-types';
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
@@ -32,6 +32,10 @@ export const store = createStore<State>({
       state.count++;
     },
 
+    [SET_DEV_TOOL_TAB](state, devToolTab) {
+      state.devToolTab = devToolTab;
+    },
+
     [SET_SHOW_COVER](state, showCover) {
       state.showCover = showCover;
     },
@@ -42,6 +46,7 @@ export const store = createStore<State>({
       const cubeKey = createCubeKey(cube);
       cubeMap.set(cubeKey, cube);
     },
+
     [DELETE_CUBES](state, deleteCubes) {
       const { cubes, cubeMap } = state;
       const stateDeleteCubes = [];
@@ -56,6 +61,10 @@ export const store = createStore<State>({
       }
       state.deleteCubes = stateDeleteCubes;
     },
+    [RESET_DELETE_CUBES](state) {
+      state.deleteCubes = [];
+    },
+
     [SET_ADD_CUBE](state, addCube) {
       state.addCube = { ...addCube };
     },
@@ -75,9 +84,7 @@ export const store = createStore<State>({
         stateCube!.isSelected = true;
       }
     },
-    [SET_DEV_TOOL_TAB](state, devToolTab) {
-      state.devToolTab = devToolTab;
-    },
+
     [SET_CUBE_MOVE_DIRECTION](state, { cube, moveDirection }) {
       const cubeKey = createCubeKey(cube);
       const stateCube = state.cubeMap.get(cubeKey);
@@ -109,7 +116,9 @@ export const store = createStore<State>({
           break;
       }
       // 更新 map
-      cubeMap.delete(oldCubeKey);
+      if (cubeMap.get(oldCubeKey) === cube) {
+        cubeMap.delete(oldCubeKey);
+      }
       const newCubeKey = createCubeKey(cube);
       cubeMap.set(newCubeKey, cube);
     },
@@ -128,6 +137,7 @@ export const store = createStore<State>({
 
       setTimeout(() => {
         store.commit(SET_SHOW_COVER, false);
+        store.commit(RESET_DELETE_CUBES, false);
       }, FADE_FRAME_TIME);
     },
     [MOVE_CUBES_ACTION](store, moveCubes) {
