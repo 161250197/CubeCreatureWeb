@@ -1,7 +1,7 @@
 // store.ts
 import { Cube, InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
-import { DevToolTabs, FRAME_TIME, MoveDirection } from '../util/constant';
+import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection } from '../util/constant';
 import { defaultAddCube, createCubeKey } from '../util/cube';
 import { INCREMENT, ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE } from './mutation-types';
 
@@ -128,7 +128,7 @@ export const store = createStore<State>({
 
       setTimeout(() => {
         store.commit(SET_SHOW_COVER, false);
-      }, FRAME_TIME);
+      }, FADE_FRAME_TIME);
     },
     [MOVE_CUBES_ACTION](store, moveCubes) {
       store.commit(SET_SHOW_COVER, true);
@@ -137,9 +137,9 @@ export const store = createStore<State>({
       for (const cube of moveCubes) {
         const cubeKey = createCubeKey(cube);
         const stateCube = (cubeMap.get(cubeKey) as Cube);
-        const delayTime = cube.moveDelay * FRAME_TIME;
+        const delayTime = cube.moveDelay * MOVE_FRAME_TIME;
         setTimeout(() => { store.commit(MOVE_CUBE, stateCube); }, delayTime);
-        const totalTime = cube.moveDistance * FRAME_TIME + delayTime;
+        const totalTime = cube.moveDistance * MOVE_FRAME_TIME + delayTime;
         setTimeout(() => { store.commit(RESET_MOVE_CUBE, stateCube); }, totalTime);
       }
 
@@ -147,7 +147,7 @@ export const store = createStore<State>({
       for (const { moveDistance, moveDelay } of moveCubes) {
         maxMoveTime = Math.max(maxMoveTime, moveDistance + moveDelay);
       }
-      const cartoonTimeout = maxMoveTime * FRAME_TIME;
+      const cartoonTimeout = maxMoveTime * MOVE_FRAME_TIME;
       setTimeout(() => {
         store.commit(SET_SHOW_COVER, false);
       }, cartoonTimeout);

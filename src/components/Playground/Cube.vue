@@ -1,6 +1,6 @@
 <template>
   <div class="cube" :style="{ left, top, zIndex }"
-    :class="{ 'prompt': isPromptCube, 'selected': isSelected, 'to-delete': isToDelete }">
+    :class="{ 'prompt': isPromptCube, 'selected': isSelected, 'to-delete': isToDelete, [`transition-${ cube.moveDistance }`]: cube.moveDistance }">
     <span class="face front" :style="{ background }"></span>
     <span class="face left" :style="{ background }"></span>
     <span class="face top" :style="{ background }"></span>
@@ -16,8 +16,10 @@ const props = defineProps({
   isToDelete: Boolean,
 });
 
+const cube = computed(() => (props.cube) as Cube);
+
 const left = computed(() => {
-  const { x, y } = (props.cube) as Cube;
+  const { x, y } = cube.value;
   const xRange = 19;
   const yRange = 35;
   const left = 400 + xRange * x - yRange * y;
@@ -25,7 +27,7 @@ const left = computed(() => {
 });
 
 const top = computed(() => {
-  const { x, y, z } = (props.cube) as Cube;
+  const { x, y, z } = cube.value;
   const xRange = 12;
   const yRange = 6.5;
   const zRange = 38;
@@ -33,12 +35,12 @@ const top = computed(() => {
   return pxSuffix(top);
 });
 
-const background = computed(() => ((props.cube) as Cube).color);
-const isPromptCube = computed(() => ((props.cube) as Cube).isPrompt);
-const isSelected = computed(() => ((props.cube) as Cube).isSelected);
+const background = computed(() => cube.value.color);
+const isPromptCube = computed(() => cube.value.isPrompt);
+const isSelected = computed(() => cube.value.isSelected);
 
 const zIndex = computed(() => {
-  const { x, y, z } = (props.cube) as Cube;
+  const { x, y, z } = cube.value;
   return x * cubeRowCount * cubeRowCount + y * cubeRowCount + z;
 });
 
@@ -125,4 +127,17 @@ function pxSuffix(num: number) {
     opacity: 0;
   }
 }
+</style>
+
+<style scoped lang="less">
+@maxDistance: 7;
+
+each(range(@maxDistance), {
+  @transitionName: e(%("transition-%s", @value));
+  @time: e(%("%ss", (@value * 0.3)));
+
+  .@{transitionName} {
+    transition: all @time linear;
+  }
+});
 </style>
