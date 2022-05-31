@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="cubes" style="width: 100%" empty-text="现在没有方块，先去添加方块吧" @selection-change="handleSelectionChange"
+  <el-table :data="cubes" empty-text="现在没有方块，先去添加方块吧" max-height="500" @selection-change="handleSelectionChange"
     @cell-mouse-enter="onCellMouseEnter" @cell-mouse-leave="onCellMouseLeave">
     <el-table-column type="selection" width="55" />
     <el-table-column label="x">
@@ -17,7 +17,7 @@
         <span>{{ row.z }}</span>
       </template>
     </el-table-column>
-    <el-table-column label="颜色" width="180">
+    <el-table-column label="颜色">
       <template #default="{ row }">
         <span :style="{ background: row.color }" class="color-tag"></span>
       </template>
@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { Cube } from 'vue';
-import { SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES } from '../../store/mutation-types';
+import { SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES_ACTION } from '../../store/mutation-types';
 import { getStore } from '../../store/store';
 
 const store = getStore();
@@ -40,7 +40,7 @@ const deleteCubes = ref<Cube[]>([]);
 const deleteCubeCount = computed(() => deleteCubes.value.length);
 
 function onRemoveClick() {
-  store.dispatch(DELETE_CUBES, deleteCubes.value);
+  store.dispatch(DELETE_CUBES_ACTION, deleteCubes.value);
 }
 
 function handleSelectionChange(selectedCubes: Cube[]) {
@@ -56,7 +56,6 @@ function onCellMouseLeave(cube: Cube) {
   store.commit(SET_CUBE_IS_PROMPT, { cube, isPrompt: false });
 }
 </script>
-
 
 <style scoped lang="less">
 .color-tag {

@@ -1,7 +1,8 @@
 import { Cube } from "vue";
+import { MoveDirection } from "./constant";
 
-export function createCube(x: number, y: number, z: number, color: string, isPrompt = false) {
-  const newCube: Cube = { x, y, z, color, isPrompt, isSelected: false };
+export function createCube(x: number, y: number, z: number, color: string, isPrompt = false, moveDirection = MoveDirection.no) {
+  const newCube: Cube = { x, y, z, color, isPrompt, isSelected: false, moveDirection, moveDistance: 0, moveDelay: 0 };
   return newCube;
 }
 

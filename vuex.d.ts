@@ -1,6 +1,6 @@
 // vuex.d.ts
 import { Store } from 'vuex';
-import { DevToolTabs } from './src/util/constant';
+import { DevToolTabs, MoveDirection } from './src/util/constant';
 
 declare module '@vue/runtime-core' {
   // declare your own store states
@@ -21,6 +21,9 @@ declare module '@vue/runtime-core' {
     color: string;
     isPrompt: boolean;
     isSelected: boolean;
+    moveDirection: MoveDirection;
+    moveDistance: number;
+    moveDelay: number;
   };
 
   // provide typings for `this.$store`
