@@ -13,6 +13,8 @@ export const MOVE_CUBE = 'moveCube';
 export const RESET_MOVE_CUBE = 'resetMoveCube';
 export const RESET_DELETE_CUBES = 'resetDeleteCubes';
 
+export const SET_GAME_MODE = 'setGameMode';
+
 // action
 export const DELETE_CUBES_ACTION = 'deleteCubesAction';
 export const MOVE_CUBES_ACTION = 'moveCubesAction';

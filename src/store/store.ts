@@ -1,15 +1,16 @@
 // store.ts
 import { Cube, InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
-import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection } from '../util/constant';
+import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection, GameMode } from '../util/constant';
 import { defaultAddCube, createCubeKey } from '../util/cube';
-import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES } from './mutation-types';
+import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES, SET_GAME_MODE } from './mutation-types';
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
   state: {
+    gameMode: GameMode.dev,
     cubes: [],
     deleteCubes: [],
     cubeMap: new Map(),
@@ -122,6 +123,10 @@ export const store = createStore<State>({
       cube.moveDirection = MoveDirection.no;
       cube.moveDelay = 0;
       cube.moveDistance = 0;
+    },
+
+    [SET_GAME_MODE](state, gameMode) {
+      state.gameMode = gameMode;
     }
   },
   actions: {
