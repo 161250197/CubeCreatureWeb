@@ -5,7 +5,6 @@ import { DevToolTabs, MoveDirection } from './src/util/constant';
 declare module '@vue/runtime-core' {
   // declare your own store states
   interface State {
-    count: number;
     cubes: Cube[];
     deleteCubes: Cube[];
     cubeMap: Map<string, Cube>,

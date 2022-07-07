@@ -3,14 +3,13 @@ import { Cube, InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
 import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection } from '../util/constant';
 import { defaultAddCube, createCubeKey } from '../util/cube';
-import { INCREMENT, ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES } from './mutation-types';
+import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES } from './mutation-types';
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
   state: {
-    count: 0,
     cubes: [],
     deleteCubes: [],
     cubeMap: new Map(),
@@ -28,10 +27,6 @@ export const store = createStore<State>({
     }
   },
   mutations: {
-    [INCREMENT](state) {
-      state.count++;
-    },
-
     [SET_DEV_TOOL_TAB](state, devToolTab) {
       state.devToolTab = devToolTab;
     },
