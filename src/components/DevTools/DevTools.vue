@@ -10,8 +10,8 @@
       <MoveCube />
     </el-tab-pane>
   </el-tabs>
-  <!-- <span>count: {{ count }}</span> -->
 </template>
+
 <script lang="ts" setup>
 import type { TabsPaneContext } from 'element-plus';
 import { DevToolTabs } from '../../util/constant';

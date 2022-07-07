@@ -1,5 +1,4 @@
 // mutation
-export const INCREMENT = 'increment';
 export const ADD_CUDE = 'addCude';
 export const DELETE_CUBES = 'deleteCubes';
 export const SET_ADD_CUBE = 'setAddCube';
