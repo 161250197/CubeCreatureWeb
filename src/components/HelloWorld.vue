@@ -1,16 +1,37 @@
+<template>
+  <div class="full-screen" @click="changeGameModeDev">
+    <h1>今天你也很可爱！</h1>
+    <img
+      v-for="i of logoCount"
+      :key="i"
+      :class="`meteor-${i}`"
+      :alt="`Vue logo No.${i}`"
+      src="../assets/logo.png"
+      class="logo"
+    />
+  </div>
+</template>
+
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
+import { SET_GAME_MODE } from "../store/mutation-types";
+import { getStore } from "../store/store";
+import { GameMode } from "../util/constant";
+const store = getStore();
+
+function changeGameModeDev() {
+  store.commit(SET_GAME_MODE, GameMode.dev);
+}
 
 const logoCount = ref(10);
 </script>
 
-<template>
-  <h1>今天你也很可爱！</h1>
-  <img v-for="i of logoCount" :key="i" :class="`meteor-${ i }`" :alt="`Vue logo No.${ i }`"
-    src="../assets/logo.png" class="logo" />
-</template>
-
 <style scoped lang="less">
+.full-screen {
+  width: 100%;
+  height: 100%;
+}
+
 h1 {
   position: absolute;
   left: 50%;
@@ -56,13 +77,14 @@ h1 {
 }
 
 .keyframesFunction(@cartoonName, @index) {
-  @fromLeft: #fromLeftMap[@@index];
+  @fromLeft: #fromLeftMap[ @@index];
   @toLeft: @fromLeft - 100;
+  @width: #widthMap[ @@index];
 
   @keyframes @cartoonName {
     from {
       left: e(%("%s%", @fromLeft));
-      top: 0;
+      top: e(%("-%spx", @width));
     }
 
     to {

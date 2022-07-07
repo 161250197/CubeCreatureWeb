@@ -3,7 +3,8 @@ export enum DevToolTabs {
   add = '添加',
   remove = '删除',
   move = '滑动',
-  jumpToGameMode = '跳转游戏模式',
+  gameMode = '游戏模式',
+  kawaiMode = '(<ゝω·)~☆'
 }
 
 /** 移动方向 */

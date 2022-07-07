@@ -10,7 +10,7 @@ export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
   state: {
-    gameMode: GameMode.dev,
+    gameMode: GameMode.helloWorld,
     cubes: [],
     deleteCubes: [],
     cubeMap: new Map(),
