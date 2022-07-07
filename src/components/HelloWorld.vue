@@ -1,5 +1,5 @@
 <template>
-  <div class="full-screen" @click="changeGameModeDev">
+  <div class="full-screen" @dblclick="changeGameModeDev">
     <h1>今天你也很可爱！</h1>
     <img
       v-for="i of logoCount"
