@@ -1,7 +1,7 @@
 <template>
   <div class="playground">
-    <Cube v-for="cube of cubes" :cube="cube" />
-    <Cube v-for="cube of deleteCubes" :cube="cube" isToDelete />
+    <Cube v-for="cube of cubes" :key="cube.key" :cube="cube" />
+    <Cube v-for="cube of deleteCubes" :key="cube.key" :cube="cube" isToDelete />
     <Cube v-if="validPosition && devToolTabIsAdd" :cube="addCube" />
   </div>
 </template>

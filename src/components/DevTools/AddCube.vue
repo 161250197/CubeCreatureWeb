@@ -14,7 +14,7 @@
   <div class="wrapper">
     <span class="label color-label">颜色</span>
     <div class="color-wrapper">
-      <el-button v-for="color of cubeColors" :color="color" size="large" circle @click="onSelectedColorChange(color)">
+      <el-button v-for="color of cubeColors" :key="color" :color="color" size="large" circle @click="onSelectedColorChange(color)">
         <template #icon v-if="color === selectedColor">
           <el-icon :size="20">
             <Check />

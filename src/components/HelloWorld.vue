@@ -6,8 +6,8 @@ const logoCount = ref(10);
 
 <template>
   <h1>今天你也很可爱！</h1>
-  <img v-for="i of logoCount" class="logo" :class="`meteor-${ i }`" :alt="`Vue logo No.${ i }`"
-    src="../assets/logo.png" />
+  <img v-for="i of logoCount" :key="i" :class="`meteor-${ i }`" :alt="`Vue logo No.${ i }`"
+    src="../assets/logo.png" class="logo" />
 </template>
 
 <style scoped lang="less">
