@@ -9,7 +9,9 @@
     <el-tab-pane :label="DevToolTabs.move">
       <MoveCube />
     </el-tab-pane>
-    <el-tab-pane :label="DevToolTabs.jumpToGameMode" />
+
+    <el-tab-pane :label="DevToolTabs.kawaiMode" />
+    <el-tab-pane :label="DevToolTabs.gameMode" />
   </el-tabs>
 </template>
 
@@ -23,11 +25,16 @@ const store = getStore();
 
 const handleClick = (tab: TabsPaneContext) => {
   const tabLabel = tab.props.label;
-  if (tabLabel === DevToolTabs.jumpToGameMode) {
-    store.commit(SET_GAME_MODE, GameMode.game);
-    return;
+  switch (tabLabel) {
+    case DevToolTabs.gameMode:
+      store.commit(SET_GAME_MODE, GameMode.game);
+      return;
+    case DevToolTabs.kawaiMode:
+      store.commit(SET_GAME_MODE, GameMode.helloWorld);
+      return;
+    default:
+      store.commit(SET_DEV_TOOL_TAB, tabLabel);
   }
-  store.commit(SET_DEV_TOOL_TAB, tabLabel);
 };
 </script>
 
@@ -40,5 +47,14 @@ const handleClick = (tab: TabsPaneContext) => {
   padding: 0 20px;
   box-sizing: border-box;
   border-left: 2px solid var(--el-border-color-light);
+  :deep(.el-tabs__nav) {
+    width: 100%;
+
+    // 跳转其他模式
+    #tab-3,
+    #tab-4 {
+      float: right;
+    }
+  }
 }
 </style>
