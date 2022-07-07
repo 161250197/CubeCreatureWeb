@@ -9,19 +9,25 @@
     <el-tab-pane :label="DevToolTabs.move">
       <MoveCube />
     </el-tab-pane>
+    <el-tab-pane :label="DevToolTabs.jumpToGameMode" />
   </el-tabs>
 </template>
 
 <script lang="ts" setup>
-import type { TabsPaneContext } from 'element-plus';
-import { DevToolTabs } from '../../util/constant';
-import { getStore } from '../../store/store';
-import { SET_DEV_TOOL_TAB } from '../../store/mutation-types';
+import type { TabsPaneContext } from "element-plus";
+import { DevToolTabs, GameMode } from "../../util/constant";
+import { getStore } from "../../store/store";
+import { SET_DEV_TOOL_TAB, SET_GAME_MODE } from "../../store/mutation-types";
 
 const store = getStore();
 
 const handleClick = (tab: TabsPaneContext) => {
-  store.commit(SET_DEV_TOOL_TAB, tab.props.label);
+  const tabLabel = tab.props.label;
+  if (tabLabel === DevToolTabs.jumpToGameMode) {
+    store.commit(SET_GAME_MODE, GameMode.game);
+    return;
+  }
+  store.commit(SET_DEV_TOOL_TAB, tabLabel);
 };
 </script>
 

@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    Game: typeof import('./src/components/Game/Game.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MoveCube: typeof import('./src/components/DevTools/MoveCube.vue')['default']
     Playground: typeof import('./src/components/Playground/Playground.vue')['default']

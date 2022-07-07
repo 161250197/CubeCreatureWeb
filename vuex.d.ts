@@ -1,10 +1,11 @@
 // vuex.d.ts
 import { Store } from 'vuex';
-import { DevToolTabs, MoveDirection } from './src/util/constant';
+import { DevToolTabs, MoveDirection, GameMode } from './src/util/constant';
 
 declare module '@vue/runtime-core' {
   // declare your own store states
   interface State {
+    gameMode: GameMode;
     cubes: Cube[];
     deleteCubes: Cube[];
     cubeMap: Map<string, Cube>;
