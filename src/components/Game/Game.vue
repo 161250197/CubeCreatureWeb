@@ -1,5 +1,5 @@
 <template>
-  <div class="full-screen" @click="changeGameModeDev">Game!!!</div>
+  <div class="full-screen" @dblclick="changeGameModeDev">Game!!!</div>
 </template>
 
 <script lang="ts" setup>
