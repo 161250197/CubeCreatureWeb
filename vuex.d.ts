@@ -7,7 +7,7 @@ declare module '@vue/runtime-core' {
   interface State {
     cubes: Cube[];
     deleteCubes: Cube[];
-    cubeMap: Map<string, Cube>,
+    cubeMap: Map<string, Cube>;
     addCube: Cube;
     devToolTab: DevToolTabs;
     showCover: boolean;
@@ -23,6 +23,7 @@ declare module '@vue/runtime-core' {
     moveDirection: MoveDirection;
     moveDistance: number;
     moveDelay: number;
+    key: getter<string>;
   };
 
   // provide typings for `this.$store`
