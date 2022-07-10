@@ -25,7 +25,13 @@ export const store = createStore<State>({
     },
     devToolTabIsAdd({ devToolTab }) {
       return devToolTab === DevToolTabs.add;
-    }
+    },
+    isHelloWorldMode({ gameMode }) {
+      return gameMode === GameMode.helloWorld;
+    },
+    isDevMode({ gameMode }) {
+      return gameMode === GameMode.dev;
+    },
   },
   mutations: {
     [SET_DEV_TOOL_TAB](state, devToolTab) {

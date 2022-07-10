@@ -1,19 +1,19 @@
 <template>
-  <HelloWorld v-if="gameMode === GameMode.helloWorld" />
-  <template v-else-if="gameMode === GameMode.dev">
+  <HelloWorld v-if="isHelloWorldMode" />
+  <template v-else>
     <Playground />
-    <DevTools />
+    <DevTools v-if="isDevMode" />
+    <Game v-else />
   </template>
-  <Game v-else-if="gameMode === GameMode.game" />
   <Cover />
 </template>
 
 <script setup lang="ts">
-import { getStore } from './store/store';
-import { GameMode } from './util/constant'; 
+import { getStore } from "./store/store";
 
 const store = getStore();
-const gameMode = computed(() => store.state.gameMode);
+const isHelloWorldMode = computed(() => store.getters.isHelloWorldMode);
+const isDevMode = computed(() => store.getters.isDevMode);
 </script>
 
 <style>
