@@ -1,6 +1,14 @@
 <template>
-  <div class="cube" :style="{ left, top, zIndex }"
-    :class="{ 'prompt': isPromptCube, 'selected': isSelected, 'to-delete': isToDelete, [`transition-${ cube.moveDistance }`]: cube.moveDistance }">
+  <div
+    class="cube"
+    :style="{ left, top, zIndex }"
+    :class="{
+      prompt: isPromptCube,
+      selected: isSelected,
+      'to-delete': isToDelete,
+      [`transition-${cube.moveDistance}`]: cube.moveDistance,
+    }"
+  >
     <span class="face front" :style="{ background }"></span>
     <span class="face left" :style="{ background }"></span>
     <span class="face top" :style="{ background }"></span>
@@ -8,15 +16,15 @@
 </template>
 
 <script setup lang="ts">
-import { Cube } from 'vue';
-import { cubeRowCount } from '../../util/cube';
+import { Cube } from "vue";
+import { cubeRowCount } from "../../util/cube";
 const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型
   /** 将要删除 */
   isToDelete: Boolean,
 });
 
-const cube = computed(() => (props.cube) as Cube);
+const cube = computed(() => props.cube as Cube);
 
 const left = computed(() => {
   const { x, y } = cube.value;
@@ -45,7 +53,7 @@ const zIndex = computed(() => {
 });
 
 function pxSuffix(num: number) {
-  return `${ num }px`;
+  return `${num}px`;
 }
 </script>
 
@@ -71,7 +79,8 @@ function pxSuffix(num: number) {
     .face {
       opacity: 1;
       filter: brightness(0.8);
-      box-shadow: lightgrey -1px -1px 10px 0px, inset lightgrey -1px -1px 1px 0px;
+      box-shadow: lightgrey -1px -1px 10px 0px,
+        inset lightgrey -1px -1px 1px 0px;
     }
   }
 
