@@ -1,5 +1,5 @@
 <template>
-  <div class="playground">
+  <div class="playground" :class="{ 'is-dev-mode': isDevMode }">
     <Cube v-for="cube of cubes" :key="cube.key" :cube="cube" />
     <Cube v-for="cube of deleteCubes" :key="cube.key" :cube="cube" isToDelete />
     <Cube v-if="showAddCube" :cube="addCube" />
@@ -19,15 +19,20 @@ const showAddCube = computed(
     store.getters.devToolTabIsAdd &&
     store.getters.isDevMode
 );
+const isDevMode = computed(() => store.getters.isDevMode);
 </script>
 
 <style scoped lang="less">
 .playground {
-  width: 50%;
+  width: 100%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   left: 0;
   box-sizing: border-box;
+  z-index: -1;
+  &.is-dev-mode {
+    width: 50%;
+  }
 }
 </style>
 

@@ -21,10 +21,10 @@ html,
 body,
 #app {
   width: 100%;
+  min-width: 1500px;
   height: 100%;
-  overflow: hidden;
   margin: 0;
-  position: fixed;
+  position: absolute;
   user-select: none;
 }
 </style>

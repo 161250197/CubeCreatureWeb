@@ -42,7 +42,7 @@ const handleClick = (tab: TabsPaneContext) => {
 .dev-tools-tabs {
   width: 50%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   right: 0;
   padding: 0 20px;
   box-sizing: border-box;
