@@ -35,11 +35,13 @@
 
 <script setup lang="ts">
 import { Cube } from "vue";
-import { cubeRowCount, pxSuffix } from "../../util/cube";
-import { CUBE_SIZE } from "../../util/constant";
-
-const CUBE_SIZE_PX = pxSuffix(CUBE_SIZE);
-const HALF_CUBE_SIZE_PX = pxSuffix(CUBE_SIZE / 2);
+import { cubeRowCount } from "../../util/cube";
+import {
+  CUBE_SIZE,
+  pxSuffix,
+  CUBE_SIZE_PX,
+  HALF_CUBE_SIZE_PX,
+} from "../../util/constant";
 
 const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型

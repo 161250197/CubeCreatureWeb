@@ -26,16 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { CUBE_SIZE } from "../../util/constant";
-import {
-  createCube,
-  cubeRowCount,
-  defaultCubeColor,
-  pxSuffix,
-} from "../../util/cube";
-
-const CUBE_SIZE_PX = pxSuffix(CUBE_SIZE);
-const HALF_CUBE_SIZE_PX = pxSuffix(CUBE_SIZE / 2);
+import { CUBE_SIZE_PX, HALF_CUBE_SIZE_PX } from "../../util/constant";
+import { createCube, cubeRowCount, defaultCubeColor } from "../../util/cube";
 
 // TODO
 const addCubeColor = computed(() => defaultCubeColor);

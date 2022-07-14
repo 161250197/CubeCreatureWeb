@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddCube: typeof import('./src/components/DevTools/AddCube.vue')['default']
+    ChessBoard: typeof import('./src/components/Playground/ChessBoard.vue')['default']
     Cover: typeof import('./src/components/Cover.vue')['default']
     Cube: typeof import('./src/components/Playground/Cube.vue')['default']
     DeleteCube: typeof import('./src/components/DevTools/DeleteCube.vue')['default']

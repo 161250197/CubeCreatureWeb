@@ -23,8 +23,3 @@ export const defaultAddCube: Cube = createCube(0, 0, 0, defaultCubeColor, true);
 export function createCubeKey({ x, y, z }: Cube) {
   return [x, y, z].join('-');
 }
-
-/** 添加 px 尾缀 */
-export function pxSuffix(num: number) {
-  return `${num}px`;
-}
