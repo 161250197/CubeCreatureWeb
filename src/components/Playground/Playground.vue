@@ -10,7 +10,7 @@
         isToDelete
       />
       <Cube v-if="showAddCube" :cube="addCube" />
-      <PromptCubes />
+      <PromptCubes v-if="isGameMode" />
     </div>
   </div>
 </template>
@@ -29,6 +29,7 @@ const showAddCube = computed(
     store.getters.isDevMode
 );
 const isDevMode = computed(() => store.getters.isDevMode);
+const isGameMode = computed(() => store.getters.isGameMode);
 </script>
 
 <style scoped lang="less">

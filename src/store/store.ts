@@ -32,6 +32,9 @@ export const store = createStore<State>({
     isDevMode({ gameMode }) {
       return gameMode === GameMode.dev;
     },
+    isGameMode({ gameMode }) {
+      return gameMode === GameMode.game;
+    },
   },
   mutations: {
     [SET_DEV_TOOL_TAB](state, devToolTab) {
