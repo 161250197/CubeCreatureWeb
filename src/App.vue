@@ -22,6 +22,7 @@ body,
 #app {
   width: 100%;
   min-width: 1500px;
+  min-height: 600px;
   height: 100%;
   margin: 0;
   position: absolute;
