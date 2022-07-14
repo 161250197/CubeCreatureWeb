@@ -11,8 +11,8 @@
       prompt: cube.isPromptDev,
       selected: cube.isSelectedDev,
       'to-delete': isToDelete,
-      'is-hide': isHide,
-      'is-hover-show': isHoverShow,
+      'is-prompt': isPrompt,
+      'is-valid-prompt': isValidPrompt,
       [`transition-${cube.moveDistance}`]: cube.moveDistance,
     }"
     @click="onCubeClick"
@@ -45,13 +45,13 @@ const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型
   /** 将要删除 */
   isToDelete: Boolean,
-  isHide: Boolean, // TODO 修改名称
-  isHoverShow: Boolean,
+  isPrompt: Boolean,
+  isValidPrompt: Boolean,
   background: String,
 });
 
 const emit = defineEmits<{
-  (event: "cubeClick"): void;
+  (event: "prompCubeClick"): void;
 }>();
 
 const cube = computed(() => props.cube as Cube);
@@ -76,9 +76,9 @@ const transformLeft = `rotateY(-90deg) translateZ(${HALF_CUBE_SIZE_PX})`;
 const transformTop = `rotateX(90deg) translateZ(${HALF_CUBE_SIZE_PX})`;
 
 function onCubeClick() {
-  const validCubeClick = props.isHide && props.isHoverShow;
-  if (validCubeClick) {
-    emit("cubeClick");
+  const validPromptCubeClick = props.isPrompt && props.isValidPrompt;
+  if (validPromptCubeClick) {
+    emit("prompCubeClick");
   }
 }
 </script>
@@ -133,10 +133,10 @@ function onCubeClick() {
     }
   }
 
-  &.is-hover-show {
+  &.is-prompt {
     cursor: pointer;
     opacity: 0;
-    &:hover {
+    &.is-valid-prompt:hover {
       opacity: 1;
     }
   }

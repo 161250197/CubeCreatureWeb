@@ -3,10 +3,10 @@
     v-for="cube of toLeftCubes"
     :key="cube.key"
     :cube="cube"
-    :isHoverShow="isValidToLeft(cube.y)"
+    :isValidPrompt="isValidPromptToLeft(cube.y)"
     :background="addCubeColor"
-    @cubeClick="addToLeftCube(cube.y)"
-    isHide
+    @prompCubeClick="addToLeftCube(cube.y)"
+    isPrompt
     isToLeft
   >
     <span class="cube-slideway" :style="cubeSlidewayToLeftStyle"></span>
@@ -16,10 +16,10 @@
     v-for="cube of toRightCubes"
     :key="cube.key"
     :cube="cube"
-    :isHoverShow="isValidToRight(cube.x)"
+    :isValidPrompt="isValidPromptToRight(cube.x)"
     :background="addCubeColor"
-    @cubeClick="addToRightCube(cube.x)"
-    isHide
+    @prompCubeClick="addToRightCube(cube.x)"
+    isPrompt
   >
     <span class="cube-slideway" :style="cubeSlidewayToRightStyle"></span>
   </Cube>
@@ -80,12 +80,12 @@ function addToRightCube(x: number) {
   console.log("TODO addToRightCube", x);
 }
 
-function isValidToLeft(y: number) {
+function isValidPromptToLeft(y: number) {
   // TODO
   return true;
 }
 
-function isValidToRight(x: number) {
+function isValidPromptToRight(x: number) {
   // TODO
   return true;
 }
