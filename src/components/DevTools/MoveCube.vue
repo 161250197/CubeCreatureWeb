@@ -1,6 +1,11 @@
 <template>
-  <el-table :data="cubes" empty-text="现在没有方块，先去添加方块吧" max-height="500" @cell-mouse-enter="onCellMouseEnter"
-    @cell-mouse-leave="onCellMouseLeave">
+  <el-table
+    :data="cubes"
+    empty-text="现在没有方块，先去添加方块吧"
+    max-height="500"
+    @cell-mouse-enter="onCellMouseEnter"
+    @cell-mouse-leave="onCellMouseLeave"
+  >
     <el-table-column label="x" width="50">
       <template #default="{ row }">
         <span>{{ row.x }}</span>
@@ -23,36 +28,70 @@
     </el-table-column>
     <el-table-column label="移动方向">
       <template #default="{ row }">
-        <el-select :model-value="row.moveDirection" :placeholder="MoveDirection.no" size="small"
-          @change="val => onMoveDirectionChange(row, val)">
-          <el-option v-for="item in MoveDirection" :key="item" :label="item" :value="item" />
+        <el-select
+          :model-value="row.moveDirection"
+          :placeholder="MoveDirection.no"
+          size="small"
+          @change="(val) => onMoveDirectionChange(row, val)"
+        >
+          <el-option
+            v-for="item in MoveDirection"
+            :key="item"
+            :label="item"
+            :value="item"
+          />
         </el-select>
       </template>
     </el-table-column>
     <el-table-column label="移动距离">
       <template #default="{ row }">
-        <el-input-number :model-value="row.moveDistance" :min="0" :max="7" :disabled="cubeNoMove(row)" size="small"
-          @change="val => onMoveDistanceChange(row, val)" />
+        <el-input-number
+          :model-value="row.moveDistance"
+          :min="0"
+          :max="7"
+          :disabled="cubeNoMove(row)"
+          size="small"
+          @change="(val) => onMoveDistanceChange(row, val)"
+        />
       </template>
     </el-table-column>
     <el-table-column label="延迟时间">
       <template #default="{ row }">
-        <el-input-number :model-value="row.moveDelay" :min="0" :max="7" :disabled="cubeNoMove(row)" size="small"
-          @change="val => onMoveDelayChange(row, val)" />
+        <el-input-number
+          :model-value="row.moveDelay"
+          :min="0"
+          :max="7"
+          :disabled="cubeNoMove(row)"
+          size="small"
+          @change="(val) => onMoveDelayChange(row, val)"
+        />
       </template>
     </el-table-column>
   </el-table>
   <el-divider />
-  <el-button v-if="moveCubeCount" type="primary" size="large" @click="onRemoveClick">移动 {{ moveCubeCount }} 个方块
+  <el-button
+    v-if="moveCubeCount"
+    type="primary"
+    size="large"
+    @click="onRemoveClick"
+    >移动 {{ moveCubeCount }} 个方块
   </el-button>
-  <el-button v-else type="warning" size="large" disabled plain>请先选择要移动的方块</el-button>
+  <el-button v-else type="warning" size="large" disabled plain
+    >请先选择要移动的方块</el-button
+  >
 </template>
 
 <script setup lang="ts">
-import { Cube } from 'vue';
-import { SET_CUBE_IS_PROMPT, MOVE_CUBES_ACTION, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY } from '../../store/mutation-types';
-import { getStore } from '../../store/store';
-import { MoveDirection } from '../../util/constant';
+import { Cube } from "vue";
+import {
+  SET_CUBE_IS_PROMPT,
+  MOVE_CUBES_ACTION,
+  SET_CUBE_MOVE_DIRECTION,
+  SET_CUBE_MOVE_DISTANCE,
+  SET_CUBE_MOVE_DELAY,
+} from "../../store/mutation-types";
+import { getStore } from "../../store/store";
+import { MoveDirection } from "../../util/constant";
 
 const store = getStore();
 
@@ -65,7 +104,9 @@ function onCellMouseLeave(cube: Cube) {
 }
 
 const cubes = computed(() => store.state.cubes);
-const moveCubes = computed(() => store.state.cubes.filter(cube => !cubeNoMove(cube)));
+const moveCubes = computed(() =>
+  store.state.cubes.filter((cube) => !cubeNoMove(cube))
+);
 const moveCubeCount = computed(() => moveCubes.value.length);
 
 function onRemoveClick() {
