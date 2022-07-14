@@ -1,10 +1,7 @@
 <template>
   <HelloWorld v-if="isHelloWorldMode" />
-  <template v-else>
-    <Playground />
-    <DevTools v-if="isDevMode" />
-    <Game v-else />
-  </template>
+  <DevTools v-else-if="isDevMode" />
+  <Game v-else />
   <Cover />
 </template>
 
