@@ -15,9 +15,4 @@ function changeGameModeDev() {
 }
 </script>
 
-<style scoped lang="less">
-.full-screen {
-  width: 100%;
-  height: 100%;
-}
-</style>
+<style scoped lang="less"></style>
