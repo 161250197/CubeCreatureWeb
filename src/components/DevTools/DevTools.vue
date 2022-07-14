@@ -1,4 +1,5 @@
 <template>
+  <Playground />
   <el-tabs model-value="0" class="dev-tools-tabs" @tab-click="handleClick">
     <el-tab-pane :label="DevToolTabs.add">
       <AddCube />
