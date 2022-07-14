@@ -26,3 +26,6 @@ export enum GameMode {
 export const MOVE_FRAME_TIME = 300;
 /** 消失动画时长 */
 export const FADE_FRAME_TIME = 500;
+
+/** 方块尺寸 */
+export const CUBE_SIZE = 40;
