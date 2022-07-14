@@ -1,8 +1,16 @@
 <template>
   <div class="playground" :class="{ 'is-dev-mode': isDevMode }">
-    <Cube v-for="cube of cubes" :key="cube.key" :cube="cube" />
-    <Cube v-for="cube of deleteCubes" :key="cube.key" :cube="cube" isToDelete />
-    <Cube v-if="showAddCube" :cube="addCube" />
+    <div class="cubes-wrapper">
+      <Cube v-for="cube of cubes" :key="cube.key" :cube="cube" />
+      <Cube
+        v-for="cube of deleteCubes"
+        :key="cube.key"
+        :cube="cube"
+        isToDelete
+      />
+      <Cube v-if="showAddCube" :cube="addCube" />
+      <PromptCubes />
+    </div>
   </div>
 </template>
 
@@ -29,10 +37,17 @@ const isDevMode = computed(() => store.getters.isDevMode);
   position: absolute;
   left: 0;
   box-sizing: border-box;
-  z-index: -1;
+
+  .cubes-wrapper {
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: rotate3d(1, 0, 0, 335deg) rotate3d(0, 1, 0, 50deg);
+    left: 50%;
+    top: 50%;
+  }
+
   &.is-dev-mode {
     width: 50%;
   }
 }
 </style>
-

@@ -1,7 +1,7 @@
 import { Cube } from "vue";
 import { MoveDirection } from "./constant";
 
-export function createCube(x: number, y: number, z: number, color: string, isPrompt = false, moveDirection = MoveDirection.no) {
+export function createCube(x: number, y: number, z: number, color = defaultCubeColor, isPrompt = false, moveDirection = MoveDirection.no) {
   const newCube: Cube = {
     x, y, z, color, isPrompt, isSelected: false, moveDirection, moveDistance: 0, moveDelay: 0,
     key() { return [x, y, z].join('-'); }
@@ -22,4 +22,9 @@ export const defaultAddCube: Cube = createCube(0, 0, 0, defaultCubeColor, true);
 /** 创建方块标识 */
 export function createCubeKey({ x, y, z }: Cube) {
   return [x, y, z].join('-');
+}
+
+/** 添加 px 尾缀 */
+export function pxSuffix(num: number) {
+  return `${num}px`;
 }
