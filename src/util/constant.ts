@@ -29,3 +29,14 @@ export const FADE_FRAME_TIME = 500;
 
 /** 方块尺寸 */
 export const CUBE_SIZE = 40;
+
+/** 添加 px 尾缀 */
+export function pxSuffix(num: number) {
+  return `${num}px`;
+}
+
+export const HALF_CUBE_SIZE_PX = pxSuffix(CUBE_SIZE / 2);
+export const CUBE_SIZE_PX = pxSuffix(CUBE_SIZE);
+
+/** 棋盘边框宽度 */
+export const CHESS_BOARD_BORDER_WIDTH = 2;

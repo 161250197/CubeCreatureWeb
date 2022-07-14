@@ -1,6 +1,7 @@
 <template>
   <div class="playground" :class="{ 'is-dev-mode': isDevMode }">
     <div class="cubes-wrapper">
+      <ChessBoard />
       <Cube v-for="cube of cubes" :key="cube.key" :cube="cube" />
       <Cube
         v-for="cube of deleteCubes"
