@@ -3,7 +3,7 @@ import { Cube, InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
 import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection, GameMode } from '../util/constant';
 import { defaultAddCube, createCubeKey } from '../util/cube';
-import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT, SET_CUBES_IS_SELECTED, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES, SET_GAME_MODE } from './mutation-types';
+import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT_DEV, SET_CUBES_IS_SELECTED_DEV, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES, SET_GAME_MODE } from './mutation-types';
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
@@ -55,8 +55,8 @@ export const store = createStore<State>({
       for (const cube of deleteCubes) {
         const cubeKey = createCubeKey(cube);
         const stateCube = cubeMap.get(cubeKey);
-        stateCube!.isPrompt = false;
-        stateCube!.isSelected = false;
+        stateCube!.isPromptDev = false;
+        stateCube!.isSelectedDev = false;
         stateDeleteCubes.push(stateCube!);
         cubeMap.delete(cubeKey);
         cubes.splice(cubes.indexOf(cube), 1);
@@ -70,20 +70,20 @@ export const store = createStore<State>({
     [SET_ADD_CUBE](state, addCube) {
       state.addCube = { ...addCube };
     },
-    [SET_CUBE_IS_PROMPT](state, { cube, isPrompt }) {
+    [SET_CUBE_IS_PROMPT_DEV](state, { cube, isPromptDev }) {
       const cubeKey = createCubeKey(cube);
       const stateCube = state.cubeMap.get(cubeKey);
-      stateCube!.isPrompt = isPrompt;
+      stateCube!.isPromptDev = isPromptDev;
     },
-    [SET_CUBES_IS_SELECTED](state, cubes) {
+    [SET_CUBES_IS_SELECTED_DEV](state, cubes) {
       const stateCubes = state.cubes;
       for (const cube of stateCubes) {
-        cube.isSelected = false;
+        cube.isSelectedDev = false;
       }
       for (const cube of cubes) {
         const cubeKey = createCubeKey(cube);
         const stateCube = state.cubeMap.get(cubeKey);
-        stateCube!.isSelected = true;
+        stateCube!.isSelectedDev = true;
       }
     },
 

@@ -8,8 +8,8 @@
       height: CUBE_SIZE_PX,
     }"
     :class="{
-      prompt: isPromptCube,
-      selected: isSelected,
+      prompt: cube.isPromptDev,
+      selected: cube.isSelectedDev,
       'to-delete': isToDelete,
       'is-hide': isHide,
       'is-hover-show': isHoverShow,
@@ -57,8 +57,6 @@ const emit = defineEmits<{
 const cube = computed(() => props.cube as Cube);
 
 const background = computed(() => props.background || cube.value.color);
-const isPromptCube = computed(() => cube.value.isPrompt);
-const isSelected = computed(() => cube.value.isSelected);
 
 const zIndex = computed(() => {
   const { x, y, z } = cube.value;

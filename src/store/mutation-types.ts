@@ -2,8 +2,8 @@
 export const ADD_CUDE = 'addCude';
 export const DELETE_CUBES = 'deleteCubes';
 export const SET_ADD_CUBE = 'setAddCube';
-export const SET_CUBE_IS_PROMPT = 'setCubeIsPrompt';
-export const SET_CUBES_IS_SELECTED = 'setCubesIsSelected';
+export const SET_CUBE_IS_PROMPT_DEV = 'setCubeIsPromptDev';
+export const SET_CUBES_IS_SELECTED_DEV = 'setCubesIsSelectedDev';
 export const SET_DEV_TOOL_TAB = 'setDevToolTab';
 export const SET_SHOW_COVER = 'setShowCover';
 export const SET_CUBE_MOVE_DIRECTION = 'setCubeMoveDirection';

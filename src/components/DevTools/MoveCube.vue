@@ -84,7 +84,7 @@
 <script setup lang="ts">
 import { Cube } from "vue";
 import {
-  SET_CUBE_IS_PROMPT,
+  SET_CUBE_IS_PROMPT_DEV,
   MOVE_CUBES_ACTION,
   SET_CUBE_MOVE_DIRECTION,
   SET_CUBE_MOVE_DISTANCE,
@@ -96,11 +96,11 @@ import { MoveDirection } from "../../util/constant";
 const store = getStore();
 
 function onCellMouseEnter(cube: Cube) {
-  store.commit(SET_CUBE_IS_PROMPT, { cube, isPrompt: true });
+  store.commit(SET_CUBE_IS_PROMPT_DEV, { cube, isPromptDev: true });
 }
 
 function onCellMouseLeave(cube: Cube) {
-  store.commit(SET_CUBE_IS_PROMPT, { cube, isPrompt: false });
+  store.commit(SET_CUBE_IS_PROMPT_DEV, { cube, isPromptDev: false });
 }
 
 const cubes = computed(() => store.state.cubes);

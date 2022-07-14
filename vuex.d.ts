@@ -19,12 +19,14 @@ declare module '@vue/runtime-core' {
     y: number;
     z: number;
     color: string;
-    isPrompt: boolean;
-    isSelected: boolean;
     moveDirection: MoveDirection;
     moveDistance: number;
     moveDelay: number;
     key: getter<string>;
+
+    // 调试用属性
+    isPromptDev: boolean;
+    isSelectedDev: boolean;
   };
 
   // provide typings for `this.$store`
