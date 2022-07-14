@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { getStore } from '../store/store';
+import { getStore } from "../store/store";
 
 const store = getStore();
 const showCover = computed(() => store.state.showCover);
