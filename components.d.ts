@@ -25,6 +25,7 @@ declare module '@vue/runtime-core' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MoveCube: typeof import('./src/components/DevTools/MoveCube.vue')['default']
     Playground: typeof import('./src/components/Playground/Playground.vue')['default']
+    PromptCubes: typeof import('./src/components/Playground/PromptCubes.vue')['default']
   }
 }
 

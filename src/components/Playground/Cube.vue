@@ -1,39 +1,41 @@
 <template>
-  <div class="cube-wrapper">
-    <div
-      class="cube"
-      :style="{
-        zIndex,
-        transform: transformCube,
-        width: CUBE_SIZE_PX,
-        height: CUBE_SIZE_PX,
-      }"
-      :class="{
-        prompt: isPromptCube,
-        selected: isSelected,
-        'to-delete': isToDelete,
-        [`transition-${cube.moveDistance}`]: cube.moveDistance,
-      }"
-    >
-      <span
-        class="face front"
-        :style="{ background, transform: transformFront }"
-      ></span>
-      <span
-        class="face left"
-        :style="{ background, transform: transformLeft }"
-      ></span>
-      <span
-        class="face top"
-        :style="{ background, transform: transformTop }"
-      ></span>
-    </div>
+  <div
+    class="cube"
+    :style="{
+      zIndex,
+      transform: transformCube,
+      width: CUBE_SIZE_PX,
+      height: CUBE_SIZE_PX,
+    }"
+    :class="{
+      prompt: isPromptCube,
+      selected: isSelected,
+      'to-delete': isToDelete,
+      'is-hide': isHide,
+      'is-hover-show': isHoverShow,
+      [`transition-${cube.moveDistance}`]: cube.moveDistance,
+    }"
+    @click="onCubeClick"
+  >
+    <span
+      class="face front"
+      :style="{ background, transform: transformFront }"
+    ></span>
+    <span
+      class="face left"
+      :style="{ background, transform: transformLeft }"
+    ></span>
+    <span
+      class="face top"
+      :style="{ background, transform: transformTop }"
+    ></span>
+    <slot />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Cube } from "vue";
-import { cubeRowCount } from "../../util/cube";
+import { cubeRowCount, pxSuffix } from "../../util/cube";
 import { CUBE_SIZE } from "../../util/constant";
 
 const CUBE_SIZE_PX = pxSuffix(CUBE_SIZE);
@@ -43,11 +45,18 @@ const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型
   /** 将要删除 */
   isToDelete: Boolean,
+  isHide: Boolean, // TODO 修改名称
+  isHoverShow: Boolean,
+  background: String,
 });
+
+const emit = defineEmits<{
+  (event: "cubeClick"): void;
+}>();
 
 const cube = computed(() => props.cube as Cube);
 
-const background = computed(() => cube.value.color);
+const background = computed(() => props.background || cube.value.color);
 const isPromptCube = computed(() => cube.value.isPrompt);
 const isSelected = computed(() => cube.value.isSelected);
 
@@ -68,32 +77,23 @@ const transformFront = `translateZ(${HALF_CUBE_SIZE_PX})`;
 const transformLeft = `rotateY(-90deg) translateZ(${HALF_CUBE_SIZE_PX})`;
 const transformTop = `rotateX(90deg) translateZ(${HALF_CUBE_SIZE_PX})`;
 
-function pxSuffix(num: number) {
-  return `${num}px`;
+function onCubeClick() {
+  const validCubeClick = props.isHide && props.isHoverShow;
+  if (validCubeClick) {
+    emit("cubeClick");
+  }
 }
 </script>
 
 <style scoped lang="less">
-.cube,
-.cube-wrapper {
+.cube {
   transform-style: preserve-3d;
   position: absolute;
-}
-.cube-wrapper {
-  transform: rotate3d(1, 0, 0, 335deg) rotate3d(0, 1, 0, 50deg);
-  left: 50%;
-  top: 50%;
-}
 
-.cube {
   .face {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100%;
     position: absolute;
-    backface-visibility: hidden;
     box-shadow: lightgrey -1px -1px 1px 0px, inset lightgrey -1px -1px 1px 0px;
     opacity: 0.8;
 
@@ -132,6 +132,14 @@ function pxSuffix(num: number) {
   &.to-delete {
     .face {
       animation: delete 0.5s linear 0s 1 forwards;
+    }
+  }
+
+  &.is-hover-show {
+    cursor: pointer;
+    opacity: 0;
+    &:hover {
+      opacity: 1;
     }
   }
 }
