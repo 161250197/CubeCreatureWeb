@@ -45,8 +45,8 @@
 <script setup lang="ts">
 import { Cube } from "vue";
 import {
-  SET_CUBE_IS_PROMPT,
-  SET_CUBES_IS_SELECTED,
+  SET_CUBE_IS_PROMPT_DEV,
+  SET_CUBES_IS_SELECTED_DEV,
   DELETE_CUBES_ACTION,
 } from "../../store/mutation-types";
 import { getStore } from "../../store/store";
@@ -62,15 +62,15 @@ function onRemoveClick() {
 
 function handleSelectionChange(selectedCubes: Cube[]) {
   deleteCubes.value = selectedCubes;
-  store.commit(SET_CUBES_IS_SELECTED, selectedCubes);
+  store.commit(SET_CUBES_IS_SELECTED_DEV, selectedCubes);
 }
 
 function onCellMouseEnter(cube: Cube) {
-  store.commit(SET_CUBE_IS_PROMPT, { cube, isPrompt: true });
+  store.commit(SET_CUBE_IS_PROMPT_DEV, { cube, isPromptDev: true });
 }
 
 function onCellMouseLeave(cube: Cube) {
-  store.commit(SET_CUBE_IS_PROMPT, { cube, isPrompt: false });
+  store.commit(SET_CUBE_IS_PROMPT_DEV, { cube, isPromptDev: false });
 }
 </script>
 
