@@ -27,11 +27,6 @@ const logoCount = ref(10);
 </script>
 
 <style scoped lang="less">
-.full-screen {
-  width: 100%;
-  height: 100%;
-}
-
 h1 {
   position: absolute;
   left: 50%;
