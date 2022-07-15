@@ -1,4 +1,4 @@
-import { Cube } from "vue";
+import { Cube, Location3d } from "vue";
 import { MoveDirection } from "./constant";
 
 export function createCube(
@@ -50,4 +50,27 @@ export const defaultAddCube: Cube = createCube(0, 0, 0, defaultCubeColor, true);
 /** 创建方块标识 */
 export function createCubeKey({ x, y, z }: Cube) {
   return [x, y, z].join("-");
+}
+
+export class CubeMap {
+  private cubeMatrixs: Array<Array<Array<undefined | Cube>>>;
+  constructor() {
+    this.cubeMatrixs = Array(cubeRowCount)
+      .fill(undefined)
+      .map(() =>
+        Array(cubeRowCount)
+          .fill(undefined)
+          .map(() => Array(cubeRowCount).fill(undefined))
+      );
+  }
+  remove({ x, y, z }: Location3d) {
+    this.cubeMatrixs[x][y][z] = undefined;
+  }
+  set(cube: Cube) {
+    const { x, y, z } = cube;
+    this.cubeMatrixs[x][y][z] = cube;
+  }
+  get({ x, y, z }: Location3d) {
+    return this.cubeMatrixs[x][y][z];
+  }
 }

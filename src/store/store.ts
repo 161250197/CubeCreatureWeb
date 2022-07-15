@@ -1,5 +1,5 @@
 // store.ts
-import { CubeMap, InjectionKey, State } from "vue";
+import { InjectionKey, State } from "vue";
 import { createStore, Store } from "vuex";
 import {
   DevToolTabs,
@@ -8,7 +8,7 @@ import {
   MoveDirection,
   GameMode,
 } from "../util/constant";
-import { defaultAddCube, getRandomCubeColor } from "../util/cube";
+import { CubeMap, defaultAddCube, getRandomCubeColor } from "../util/cube";
 import {
   ADD_CUDE,
   SET_ADD_CUBE,
