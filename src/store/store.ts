@@ -13,6 +13,7 @@ import {
   CubeMap,
   defaultAddCube,
   getRandomCubeColor,
+  calDeleteCubes,
 } from "../util/cube";
 import {
   ADD_CUDE,
@@ -28,6 +29,7 @@ import {
   MOVE_CUBE,
   MOVE_CUBES_ACTION,
   SET_GAME_MODE,
+  ADD_CUDE_ACTION,
 } from "./constant";
 
 // define injection key
@@ -180,8 +182,10 @@ export const store = createStore<State>({
       store.commit(DELETE_CUBES, deleteCubes);
 
       setTimeout(() => {
-        store.commit(SET_SHOW_COVER, false);
         store.commit(RESET_DELETE_CUBES, false);
+
+        // TODO 检查下落方块
+        store.commit(SET_SHOW_COVER, false);
       }, FADE_FRAME_TIME);
     },
     [MOVE_CUBES_ACTION](store, moveCubes) {
@@ -206,13 +210,17 @@ export const store = createStore<State>({
       }
       const cartoonTimeout = maxMoveTime * MOVE_FRAME_TIME;
       setTimeout(() => {
-        // TODO 消除方块
+        const deleteCubes = calDeleteCubes(moveCubes, cubeMap);
 
-        store.commit(SET_SHOW_COVER, false);
+        if (deleteCubes.length) {
+          store.dispatch(DELETE_CUBES_ACTION, deleteCubes);
+        } else {
+          store.commit(SET_SHOW_COVER, false);
+        }
       }, cartoonTimeout);
     },
 
-    [ADD_CUDE](store, cube: Cube) {
+    [ADD_CUDE_ACTION](store, cube: Cube) {
       store.commit(SET_ADD_CUBE, cube);
       store.commit(ADD_CUDE, cube);
 

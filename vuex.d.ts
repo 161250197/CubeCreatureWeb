@@ -31,7 +31,7 @@ declare module "@vue/runtime-core" {
     isSelectedDev: boolean;
   };
 
-  type Location3d = { x: number; y: number; z: number };
+  type Position3d = { x: number; y: number; z: number };
 
   // provide typings for `this.$store`
   interface ComponentCustomProperties {
