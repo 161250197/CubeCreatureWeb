@@ -23,9 +23,9 @@ export enum GameMode {
 }
 
 /** 移动动画时长 */
-export const MOVE_FRAME_TIME = 300;
+export const MOVE_FRAME_TIME = 150;
 /** 消失动画时长 */
-export const FADE_FRAME_TIME = 500;
+export const FADE_FRAME_TIME = 400;
 
 /** 方块尺寸 */
 export const CUBE_SIZE = 40;

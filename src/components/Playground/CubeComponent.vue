@@ -63,9 +63,11 @@ const transformTop = `rotateX(90deg) translateZ(${HALF_CUBE_SIZE_PX})`;
   }
 }
 
+@fadeFrameTime: 400 / 1000; /** 同 FADE_FRAME_TIME */
+
 .to-delete {
   .face {
-    animation: delete 0.5s linear 0s 1 forwards;
+    animation: delete e(%("%ss", (@fadeFrameTime))) linear 0s 1 forwards;
   }
 }
 

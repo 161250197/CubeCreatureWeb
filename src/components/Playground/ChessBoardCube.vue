@@ -87,10 +87,11 @@ function onCubeClick() {
 }
 
 @maxDistance: 7;
+@moveFrameTime: 150 / 1000; /** 同 MOVE_FRAME_TIME */
 
 each(range(@maxDistance), {
   @transitionName: e(%("transition-%s", @value));
-  @time: e(%("%ss", (@value * 0.3)));
+  @time: e(%("%ss", (@value * @moveFrameTime)));
 
   .@{transitionName} {
     transition: all @time linear;

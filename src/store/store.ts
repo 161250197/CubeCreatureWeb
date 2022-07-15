@@ -52,7 +52,7 @@ export const store = createStore<State>({
   },
   getters: {
     invalidPosition({ cubeMap, addCube }) {
-      return cubeMap.get(addCube) !== undefined;
+      return !cubeMap.isEmpty(addCube);
     },
     devToolTabIsAdd({ devToolTab }) {
       return devToolTab === DevToolTabs.add;
@@ -201,6 +201,8 @@ export const store = createStore<State>({
       }
       const cartoonTimeout = maxMoveTime * MOVE_FRAME_TIME;
       setTimeout(() => {
+        // TODO 消除方块
+
         store.commit(SET_SHOW_COVER, false);
       }, cartoonTimeout);
     },
@@ -209,7 +211,90 @@ export const store = createStore<State>({
       store.commit(SET_ADD_CUBE, cube);
       store.commit(ADD_CUDE, cube);
 
-      // TODO
+      const { cubeMap } = store.state;
+      const { moveDirection, x, y, z } = cube;
+
+      /** 方块目的地 */
+      const destination = { x, y, z };
+      let moveDistance = 0;
+
+      /** 被推动的方块 */
+      let pushedCube: undefined | Cube = undefined;
+
+      const { nextEmpty, next2Empty, next } = (function () {
+        if (moveDirection === MoveDirection.left) {
+          return {
+            nextEmpty: function () {
+              return (
+                destination.x > 0 &&
+                cubeMap.isEmpty({ ...destination, x: destination.x - 1 })
+              );
+            },
+            next2Empty: function () {
+              return (
+                destination.x > 1 &&
+                cubeMap.isEmpty({ ...destination, x: destination.x - 2 })
+              );
+            },
+            next: function () {
+              destination.x--;
+              moveDistance++;
+            },
+          };
+        } else {
+          return {
+            nextEmpty: function () {
+              return (
+                destination.y > 0 &&
+                cubeMap.isEmpty({ ...destination, y: destination.y - 1 })
+              );
+            },
+            next2Empty: function () {
+              return (
+                destination.y > 1 &&
+                cubeMap.isEmpty({ ...destination, y: destination.y - 2 })
+              );
+            },
+            next: function () {
+              destination.y--;
+              moveDistance++;
+            },
+          };
+        }
+      })();
+
+      while (true) {
+        if (nextEmpty()) {
+          next();
+        } else {
+          if (next2Empty()) {
+            next();
+            pushedCube = cubeMap.get(destination); // 方块被推动了
+            store.commit(SET_CUBE_MOVE_DIRECTION, {
+              cube: pushedCube,
+              moveDirection,
+            });
+            const moveDelay = moveDistance - 1;
+            store.commit(SET_CUBE_MOVE_DELAY, {
+              cube: pushedCube,
+              moveDelay,
+            });
+            store.commit(SET_CUBE_MOVE_DISTANCE, {
+              cube: pushedCube,
+              moveDistance: 1,
+            });
+          }
+          store.commit(SET_CUBE_MOVE_DISTANCE, { cube, moveDistance });
+          break;
+        }
+      }
+
+      const moveCubes = [cube];
+      if (pushedCube !== undefined) {
+        moveCubes.push(pushedCube);
+      }
+
+      store.dispatch(MOVE_CUBES_ACTION, moveCubes);
 
       store.commit(UPDATE_ADD_CUBE_COLORS);
     },

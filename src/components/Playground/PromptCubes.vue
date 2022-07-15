@@ -97,7 +97,7 @@ function addToRightCube(x: number) {
 function isValidPrompt(createLocationFunc: (num: number) => Location3d) {
   return [cubeRowCount - 1, cubeRowCount - 2]
     .map(createLocationFunc)
-    .some((location) => unref(cubeMap).get(location) === undefined);
+    .some((location) => unref(cubeMap).isEmpty(location));
 }
 
 function isValidPromptToLeft(y: number) {
