@@ -79,3 +79,71 @@ export class CubeMap {
     return this.get(location) === undefined;
   }
 }
+
+/** 计算方块滑动 */
+export function calCubeMovement(cube: Cube, cubeMap: CubeMap) {
+  const { x, y, z, moveDirection } = cube;
+
+  /** 方块目的地 */
+  const destination = { x, y, z };
+  let moveDistance = 0;
+
+  /** 被推动的方块 */
+  let pushedCube: undefined | Cube = undefined;
+
+  const { nextEmpty, next2Empty, next } = (function () {
+    if (moveDirection === MoveDirection.left) {
+      return {
+        nextEmpty: function () {
+          return (
+            destination.x > 0 &&
+            cubeMap.isEmpty({ ...destination, x: destination.x - 1 })
+          );
+        },
+        next2Empty: function () {
+          return (
+            destination.x > 1 &&
+            cubeMap.isEmpty({ ...destination, x: destination.x - 2 })
+          );
+        },
+        next: function () {
+          destination.x--;
+          moveDistance++;
+        },
+      };
+    } else {
+      return {
+        nextEmpty: function () {
+          return (
+            destination.y > 0 &&
+            cubeMap.isEmpty({ ...destination, y: destination.y - 1 })
+          );
+        },
+        next2Empty: function () {
+          return (
+            destination.y > 1 &&
+            cubeMap.isEmpty({ ...destination, y: destination.y - 2 })
+          );
+        },
+        next: function () {
+          destination.y--;
+          moveDistance++;
+        },
+      };
+    }
+  })();
+
+  while (true) {
+    if (nextEmpty()) {
+      next();
+    } else {
+      if (next2Empty()) {
+        next();
+        pushedCube = cubeMap.get(destination); // 方块被推动了
+      }
+      break;
+    }
+  }
+
+  return { pushedCube, moveDistance };
+}
