@@ -54,10 +54,10 @@ import { getStore } from "../../store/store";
 const store = getStore();
 const cubes = computed(() => store.state.cubes);
 const deleteCubes = ref<Cube[]>([]);
-const deleteCubeCount = computed(() => deleteCubes.value.length);
+const deleteCubeCount = computed(() => unref(deleteCubes).length);
 
 function onRemoveClick() {
-  store.dispatch(DELETE_CUBES_ACTION, deleteCubes.value);
+  store.dispatch(DELETE_CUBES_ACTION, unref(deleteCubes));
 }
 
 function handleSelectionChange(selectedCubes: Cube[]) {

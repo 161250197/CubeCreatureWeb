@@ -42,15 +42,15 @@ const emit = defineEmits<{
 
 const cube = computed(() => props.cube as Cube);
 
-const background = computed(() => props.background || cube.value.color);
+const background = computed(() => props.background || unref(cube).color);
 
 const zIndex = computed(() => {
-  const { x, y, z } = cube.value;
+  const { x, y, z } = unref(cube);
   return x * cubeRowCount * cubeRowCount + y * cubeRowCount + z;
 });
 
 const transformCube = computed(() => {
-  const { x, y, z } = cube.value;
+  const { x, y, z } = unref(cube);
   const transformX = pxSuffix(x * CUBE_SIZE);
   const transformY = pxSuffix(-y * CUBE_SIZE);
   const transformZ = pxSuffix(-z * CUBE_SIZE);

@@ -107,10 +107,10 @@ const cubes = computed(() => store.state.cubes);
 const moveCubes = computed(() =>
   store.state.cubes.filter((cube) => !cubeNoMove(cube))
 );
-const moveCubeCount = computed(() => moveCubes.value.length);
+const moveCubeCount = computed(() => unref(moveCubes).length);
 
 function onRemoveClick() {
-  store.dispatch(MOVE_CUBES_ACTION, moveCubes.value);
+  store.dispatch(MOVE_CUBES_ACTION, unref(moveCubes));
 }
 
 function onMoveDirectionChange(cube: Cube, moveDirection: MoveDirection) {
