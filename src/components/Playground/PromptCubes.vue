@@ -42,12 +42,14 @@ const toLeftCubes = Array(cubeRowCount)
     return { x: cubeRowCount, y: index, z: 0 };
   });
 
-const cubeSlidewayToLeftStyle = {
-  background: unref(addCubeColor),
-  transform: `rotateX(-90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, ${CUBE_SIZE_PX})`,
-  width: "100%",
-  height: `${cubeRowCount + 1}00%`,
-};
+const cubeSlidewayToLeftStyle = computed(() => {
+  return {
+    background: unref(addCubeColor),
+    transform: `rotateX(-90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, ${CUBE_SIZE_PX})`,
+    width: "100%",
+    height: `${cubeRowCount + 1}00%`,
+  };
+});
 
 const toRightCubes = Array(cubeRowCount)
   .fill(undefined)
@@ -55,12 +57,14 @@ const toRightCubes = Array(cubeRowCount)
     return { x: index, y: cubeRowCount, z: 0 };
   });
 
-const cubeSlidewayToRightStyle = {
-  background: unref(addCubeColor),
-  transform: `rotateX(90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, -${CUBE_SIZE_PX})`,
-  width: `${cubeRowCount + 1}00%`,
-  height: "100%",
-};
+const cubeSlidewayToRightStyle = computed(() => {
+  return {
+    background: unref(addCubeColor),
+    transform: `rotateX(90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, -${CUBE_SIZE_PX})`,
+    width: `${cubeRowCount + 1}00%`,
+    height: "100%",
+  };
+});
 
 function addToLeftCube(y: number) {
   store.dispatch(ADD_TO_LEFT_CUBE, y);

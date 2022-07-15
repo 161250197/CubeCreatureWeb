@@ -163,7 +163,6 @@ export const store = createStore<State>({
     },
 
     [UPDATE_ADD_CUBE_COLORS](state) {
-      // TODO 添加调用
       state.addCubeColors.shift();
       state.addCubeColors.push(getRandomCubeColor());
     },
@@ -207,9 +206,11 @@ export const store = createStore<State>({
 
     [ADD_TO_RIGHT_CUBE](store, x: number) {
       // TODO
+      store.commit(UPDATE_ADD_CUBE_COLORS);
     },
     [ADD_TO_LEFT_CUBE](store, y: number) {
       // TODO
+      store.commit(UPDATE_ADD_CUBE_COLORS);
     },
   },
   strict: process.env.NODE_ENV !== "production",
