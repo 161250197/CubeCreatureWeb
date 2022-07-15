@@ -1,7 +1,7 @@
 <template>
   <ChessBoardCube
-    v-for="cube of toLeftCubes"
-    :key="cube.key"
+    v-for="(cube, index) of toLeftCubes"
+    :key="index"
     :cube="cube"
     :isValidPrompt="isValidPromptToLeft(cube.y)"
     :background="addCubeColor"
@@ -13,8 +13,8 @@
   </ChessBoardCube>
 
   <ChessBoardCube
-    v-for="cube of toRightCubes"
-    :key="cube.key"
+    v-for="(cube, index) of toRightCubes"
+    :key="index"
     :cube="cube"
     :isValidPrompt="isValidPromptToRight(cube.x)"
     :background="addCubeColor"
@@ -27,9 +27,9 @@
 
 <script setup lang="ts">
 import { CUBE_SIZE_PX, HALF_CUBE_SIZE_PX } from "../../util/constant";
-import { createCube, cubeRowCount } from "../../util/cube";
+import { cubeRowCount } from "../../util/cube";
 import { getStore } from "../../store/store";
-import { Cube } from "vue";
+import { Location3d } from "vue";
 import { ADD_TO_LEFT_CUBE, ADD_TO_RIGHT_CUBE } from "../../store/constant";
 
 const store = getStore();
@@ -39,10 +39,7 @@ const cubeMap = computed(() => store.state.cubeMap);
 const toLeftCubes = Array(cubeRowCount)
   .fill(undefined)
   .map((_, index) => {
-    const x = cubeRowCount;
-    const y = index;
-    const z = 0;
-    return createCube(x, y, z);
+    return { x: cubeRowCount, y: index, z: 0 };
   });
 
 const cubeSlidewayToLeftStyle = {
@@ -55,10 +52,7 @@ const cubeSlidewayToLeftStyle = {
 const toRightCubes = Array(cubeRowCount)
   .fill(undefined)
   .map((_, index) => {
-    const x = index;
-    const y = cubeRowCount;
-    const z = 0;
-    return createCube(x, y, z);
+    return { x: index, y: cubeRowCount, z: 0 };
   });
 
 const cubeSlidewayToRightStyle = {
@@ -76,18 +70,22 @@ function addToRightCube(x: number) {
   store.dispatch(ADD_TO_RIGHT_CUBE, x);
 }
 
-function isValidPrompt(createCubeFunc: (num: number) => Cube) {
+function isValidPrompt(createLocationFunc: (num: number) => Location3d) {
   return [cubeRowCount - 1, cubeRowCount - 2]
-    .map(createCubeFunc)
-    .some((cube) => unref(cubeMap).get(cube) === undefined);
+    .map(createLocationFunc)
+    .some((location) => unref(cubeMap).get(location) === undefined);
 }
 
 function isValidPromptToLeft(y: number) {
-  return isValidPrompt((x) => createCube(x, y, 0));
+  return isValidPrompt((x: number) => {
+    return { x, y, z: 0 };
+  });
 }
 
 function isValidPromptToRight(x: number) {
-  return isValidPrompt((y) => createCube(x, y, 0));
+  return isValidPrompt((y: number) => {
+    return { x, y, z: 0 };
+  });
 }
 </script>
 
