@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { CUBE_SIZE_PX, HALF_CUBE_SIZE_PX } from "../../util/constant";
-import { createCube, createCubeKey, cubeRowCount } from "../../util/cube";
+import { createCube, cubeRowCount } from "../../util/cube";
 import { getStore } from "../../store/store";
 import { Cube } from "vue";
 import { ADD_TO_LEFT_CUBE, ADD_TO_RIGHT_CUBE } from "../../store/constant";
@@ -79,8 +79,7 @@ function addToRightCube(x: number) {
 function isValidPrompt(createCubeFunc: (num: number) => Cube) {
   return [cubeRowCount - 1, cubeRowCount - 2]
     .map(createCubeFunc)
-    .map(createCubeKey)
-    .some((cubeKey) => !cubeMap.value.has(cubeKey));
+    .some((cube) => cubeMap.value.get(cube) === undefined);
 }
 
 function isValidPromptToLeft(y: number) {
