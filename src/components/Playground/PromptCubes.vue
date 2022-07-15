@@ -1,5 +1,5 @@
 <template>
-  <Cube
+  <ChessBoardCube
     v-for="cube of toLeftCubes"
     :key="cube.key"
     :cube="cube"
@@ -10,9 +10,9 @@
     isToLeft
   >
     <span class="cube-slideway" :style="cubeSlidewayToLeftStyle"></span>
-  </Cube>
+  </ChessBoardCube>
 
-  <Cube
+  <ChessBoardCube
     v-for="cube of toRightCubes"
     :key="cube.key"
     :cube="cube"
@@ -22,7 +22,7 @@
     isPrompt
   >
     <span class="cube-slideway" :style="cubeSlidewayToRightStyle"></span>
-  </Cube>
+  </ChessBoardCube>
 </template>
 
 <script setup lang="ts">
