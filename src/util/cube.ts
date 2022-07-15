@@ -75,4 +75,7 @@ export class CubeMap {
   get({ x, y, z }: Location3d) {
     return this.cubeMatrixs[x][y][z];
   }
+  isEmpty(location: Location3d) {
+    return this.get(location) === undefined;
+  }
 }
