@@ -30,6 +30,7 @@ import { CUBE_SIZE_PX, HALF_CUBE_SIZE_PX } from "../../util/constant";
 import { createCube, createCubeKey, cubeRowCount } from "../../util/cube";
 import { getStore } from "../../store/store";
 import { Cube } from "vue";
+import { ADD_TO_LEFT_CUBE, ADD_TO_RIGHT_CUBE } from "../../store/constant";
 
 const store = getStore();
 const addCubeColor = computed(() => store.state.addCubeColors[0]);
@@ -68,11 +69,11 @@ const cubeSlidewayToRightStyle = {
 };
 
 function addToLeftCube(y: number) {
-  console.log("TODO addToLeftCube", y);
+  store.dispatch(ADD_TO_LEFT_CUBE, y);
 }
 
 function addToRightCube(x: number) {
-  console.log("TODO addToRightCube", x);
+  store.dispatch(ADD_TO_RIGHT_CUBE, x);
 }
 
 function isValidPrompt(createCubeFunc: (num: number) => Cube) {
