@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { SET_GAME_MODE } from "../store/mutation-types";
+import { SET_GAME_MODE } from "../store/constant";
 import { getStore } from "../store/store";
 import { GameMode } from "../util/constant";
 const store = getStore();

@@ -3,12 +3,15 @@ import { Cube, InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
 import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection, GameMode } from '../util/constant';
 import { defaultAddCube, createCubeKey, getRandomCubeColor } from '../util/cube';
-import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT_DEV, SET_CUBES_IS_SELECTED_DEV, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_SHOW_COVER, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, RESET_MOVE_CUBE, RESET_DELETE_CUBES, SET_GAME_MODE } from './mutation-types';
+import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT_DEV, SET_CUBES_IS_SELECTED_DEV, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, SET_GAME_MODE } from './constant';
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
 
-// 非公开 mutations
+// 非公开 constant
+const SET_SHOW_COVER = 'setShowCover';
+const RESET_MOVE_CUBE = 'resetMoveCube';
+const RESET_DELETE_CUBES = 'resetDeleteCubes';
 const UPDATE_ADD_CUBE_COLORS = 'updateAddCubeColors';
 
 /** 新增方块颜色预览数量 */

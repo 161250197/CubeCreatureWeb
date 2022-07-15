@@ -20,7 +20,7 @@
 import type { TabsPaneContext } from "element-plus";
 import { DevToolTabs, GameMode } from "../../util/constant";
 import { getStore } from "../../store/store";
-import { SET_DEV_TOOL_TAB, SET_GAME_MODE } from "../../store/mutation-types";
+import { SET_DEV_TOOL_TAB, SET_GAME_MODE } from "../../store/constant";
 
 const store = getStore();
 
