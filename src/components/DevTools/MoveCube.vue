@@ -89,7 +89,7 @@ import {
   SET_CUBE_MOVE_DIRECTION,
   SET_CUBE_MOVE_DISTANCE,
   SET_CUBE_MOVE_DELAY,
-} from "../../store/mutation-types";
+} from "../../store/constant";
 import { getStore } from "../../store/store";
 import { MoveDirection } from "../../util/constant";
 

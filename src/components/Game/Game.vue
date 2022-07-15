@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SET_GAME_MODE } from "../../store/mutation-types";
+import { SET_GAME_MODE } from "../../store/constant";
 import { getStore } from "../../store/store";
 import { GameMode } from "../../util/constant";
 const store = getStore();

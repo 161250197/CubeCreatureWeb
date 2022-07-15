@@ -48,7 +48,7 @@ import {
   SET_CUBE_IS_PROMPT_DEV,
   SET_CUBES_IS_SELECTED_DEV,
   DELETE_CUBES_ACTION,
-} from "../../store/mutation-types";
+} from "../../store/constant";
 import { getStore } from "../../store/store";
 
 const store = getStore();

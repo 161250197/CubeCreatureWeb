@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { getStore } from "../../store/store";
-import { ADD_CUDE, SET_ADD_CUBE } from "../../store/mutation-types";
+import { ADD_CUDE, SET_ADD_CUBE } from "../../store/constant";
 import {
   createCube,
   cubeRowCount,
