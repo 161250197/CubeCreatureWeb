@@ -7,8 +7,9 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddCube: typeof import('./src/components/DevTools/AddCube.vue')['default']
     ChessBoard: typeof import('./src/components/Playground/ChessBoard.vue')['default']
+    ChessBoardCube: typeof import('./src/components/Playground/ChessBoardCube.vue')['default']
     Cover: typeof import('./src/components/Cover.vue')['default']
-    Cube: typeof import('./src/components/Playground/Cube.vue')['default']
+    Cube: typeof import('./src/components/Playground/ChessBoardCube.vue')['default']
     DeleteCube: typeof import('./src/components/DevTools/DeleteCube.vue')['default']
     DevTools: typeof import('./src/components/DevTools/DevTools.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
