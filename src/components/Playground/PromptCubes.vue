@@ -46,7 +46,7 @@ const toLeftCubes = Array(cubeRowCount)
   });
 
 const cubeSlidewayToLeftStyle = {
-  background: addCubeColor.value,
+  background: unref(addCubeColor),
   transform: `rotateX(-90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, ${CUBE_SIZE_PX})`,
   width: "100%",
   height: `${cubeRowCount + 1}00%`,
@@ -62,7 +62,7 @@ const toRightCubes = Array(cubeRowCount)
   });
 
 const cubeSlidewayToRightStyle = {
-  background: addCubeColor.value,
+  background: unref(addCubeColor),
   transform: `rotateX(90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, -${CUBE_SIZE_PX})`,
   width: `${cubeRowCount + 1}00%`,
   height: "100%",
@@ -79,7 +79,7 @@ function addToRightCube(x: number) {
 function isValidPrompt(createCubeFunc: (num: number) => Cube) {
   return [cubeRowCount - 1, cubeRowCount - 2]
     .map(createCubeFunc)
-    .some((cube) => cubeMap.value.get(cube) === undefined);
+    .some((cube) => unref(cubeMap).get(cube) === undefined);
 }
 
 function isValidPromptToLeft(y: number) {
