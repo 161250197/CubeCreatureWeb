@@ -75,10 +75,13 @@ function onCubeClick() {
   }
 
   &.is-prompt {
-    cursor: pointer;
+    cursor: not-allowed;
     opacity: 0;
-    &.is-valid-prompt:hover {
-      opacity: 1;
+    &.is-valid-prompt {
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 }
