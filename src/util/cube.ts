@@ -1,4 +1,4 @@
-import { Cube, Location3d } from "vue";
+import { Cube, Position3d } from "vue";
 import { MoveDirection } from "./constant";
 
 export function createCube(
@@ -65,18 +65,18 @@ export class CubeMap {
           .map(() => Array(cubeRowCountPlusOne).fill(undefined))
       );
   }
-  remove({ x, y, z }: Location3d) {
+  remove({ x, y, z }: Position3d) {
     this.cubeMatrixs[x][y][z] = undefined;
   }
   set(cube: Cube) {
     const { x, y, z } = cube;
     this.cubeMatrixs[x][y][z] = cube;
   }
-  get({ x, y, z }: Location3d) {
+  get({ x, y, z }: Position3d) {
     return this.cubeMatrixs[x][y][z];
   }
-  isEmpty(location: Location3d) {
-    return this.get(location) === undefined;
+  isEmpty(position: Position3d) {
+    return this.get(position) === undefined;
   }
 }
 
@@ -146,4 +146,71 @@ export function calCubeMovement(cube: Cube, cubeMap: CubeMap) {
   }
 
   return { pushedCube, moveDistance };
+}
+
+/** 方块消除要求 */
+const deleteCubeThreshold = 3;
+
+/** 计算方块消除 */
+export function calDeleteCubes(moveCubes: Cube[], cubeMap: CubeMap) {
+  const deleteCubes: Cube[] = [];
+
+  for (const cube of moveCubes) {
+    if (!deleteCubes.includes(cube)) {
+      const sameColorCubes = [cube];
+
+      // #region BFS
+      const unvisited = Array(cubeRowCount)
+        .fill(undefined)
+        .map(() =>
+          Array(cubeRowCount)
+            .fill(undefined)
+            .map(() => Array(cubeRowCount).fill(true))
+        );
+
+      const checkAdjacentSameColorCube = function (
+        color: string,
+        position: Position3d
+      ) {
+        const { x, y, z } = position;
+        if (
+          x >= 0 &&
+          x < cubeRowCount &&
+          y >= 0 &&
+          y < cubeRowCount &&
+          z < cubeRowCount &&
+          unvisited[x][y][z]
+        ) {
+          unvisited[x][y][z] = false;
+          if (cubeMap.get(position)?.color === color) {
+            sameColorCubes.push(cubeMap.get(position)!);
+            newCheckPositions.push(position);
+          }
+        }
+      }.bind(null, cube.color);
+
+      let newCheckPositions: Position3d[] = [];
+      let checkPositions: Position3d[] = [cube];
+      unvisited[cube.x][cube.y][cube.z] = false;
+      while (checkPositions.length) {
+        newCheckPositions = [];
+        for (const position of checkPositions) {
+          const { x, y, z } = position;
+          checkAdjacentSameColorCube({ ...position, x: x - 1 });
+          checkAdjacentSameColorCube({ ...position, x: x + 1 });
+          checkAdjacentSameColorCube({ ...position, y: y - 1 });
+          checkAdjacentSameColorCube({ ...position, y: y + 1 });
+          checkAdjacentSameColorCube({ ...position, z: z + 1 });
+        }
+        checkPositions = newCheckPositions;
+      }
+      // #endregion
+
+      if (sameColorCubes.length >= deleteCubeThreshold) {
+        deleteCubes.push(...sameColorCubes);
+      }
+    }
+  }
+
+  return deleteCubes;
 }

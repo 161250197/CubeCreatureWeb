@@ -33,8 +33,8 @@ import {
 } from "../../util/constant";
 import { cubeRowCount, createCube } from "../../util/cube";
 import { getStore } from "../../store/store";
-import { Location3d } from "vue";
-import { ADD_CUDE } from "../../store/constant";
+import { Position3d } from "vue";
+import { ADD_CUDE_ACTION } from "../../store/constant";
 
 const store = getStore();
 const nextCubeColor = computed(() => store.getters.nextCubeColor);
@@ -79,7 +79,7 @@ function addToLeftCube(y: number) {
     false,
     MoveDirection.left
   );
-  store.dispatch(ADD_CUDE, cube);
+  store.dispatch(ADD_CUDE_ACTION, cube);
 }
 
 function addToRightCube(x: number) {
@@ -91,13 +91,13 @@ function addToRightCube(x: number) {
     false,
     MoveDirection.right
   );
-  store.dispatch(ADD_CUDE, cube);
+  store.dispatch(ADD_CUDE_ACTION, cube);
 }
 
-function isValidPrompt(createLocationFunc: (num: number) => Location3d) {
+function isValidPrompt(createPositionFunc: (num: number) => Position3d) {
   return [cubeRowCount - 1, cubeRowCount - 2]
-    .map(createLocationFunc)
-    .some((location) => unref(cubeMap).isEmpty(location));
+    .map(createPositionFunc)
+    .some((position) => unref(cubeMap).isEmpty(position));
 }
 
 function isValidPromptToLeft(y: number) {
