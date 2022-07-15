@@ -1,5 +1,7 @@
 <template>
   <div class="playground" :class="{ 'is-dev-mode': isDevMode }">
+    <PromptAddCubes v-if="isGameMode" />
+
     <div class="cubes-wrapper">
       <ChessBoard />
       <ChessBoardCube v-for="cube of cubes" :key="cube.key" :cube="cube" />
