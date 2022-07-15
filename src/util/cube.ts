@@ -16,6 +16,11 @@ export const cubeRowCount = 7;
 export const cubeColors = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C', '#B13DA0'];
 export const defaultCubeColor = cubeColors[0];
 
+export function getRandomCubeColor() {
+  const randomCubeColorIndex = Math.floor(Math.random() * cubeColors.length);
+  return cubeColors[randomCubeColorIndex];
+}
+
 /** 默认添加方块位置 */
 export const defaultAddCube: Cube = createCube(0, 0, 0, defaultCubeColor, true);
 

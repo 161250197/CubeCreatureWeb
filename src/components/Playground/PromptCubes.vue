@@ -27,10 +27,11 @@
 
 <script setup lang="ts">
 import { CUBE_SIZE_PX, HALF_CUBE_SIZE_PX } from "../../util/constant";
-import { createCube, cubeRowCount, defaultCubeColor } from "../../util/cube";
+import { createCube, cubeRowCount } from "../../util/cube";
+import { getStore } from "../../store/store";
 
-// TODO
-const addCubeColor = computed(() => defaultCubeColor);
+const store = getStore();
+const addCubeColor = computed(() => store.state.addCubeColors[0]);
 
 const toLeftCubes = Array(cubeRowCount)
   .fill(undefined)
