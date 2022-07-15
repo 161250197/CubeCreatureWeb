@@ -2,14 +2,14 @@
   <div class="playground" :class="{ 'is-dev-mode': isDevMode }">
     <div class="cubes-wrapper">
       <ChessBoard />
-      <Cube v-for="cube of cubes" :key="cube.key" :cube="cube" />
-      <Cube
+      <ChessBoardCube v-for="cube of cubes" :key="cube.key" :cube="cube" />
+      <ChessBoardCube
         v-for="cube of deleteCubes"
         :key="cube.key"
         :cube="cube"
         isToDelete
       />
-      <Cube v-if="showAddCube" :cube="addCube" />
+      <ChessBoardCube v-if="showAddCube" :cube="addCube" />
       <PromptCubes v-if="isGameMode" />
     </div>
   </div>
