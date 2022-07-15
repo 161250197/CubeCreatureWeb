@@ -1,18 +1,40 @@
 // store.ts
-import { Cube, InjectionKey, State } from 'vue';
-import { createStore, Store } from 'vuex';
-import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection, GameMode } from '../util/constant';
-import { defaultAddCube, createCubeKey, getRandomCubeColor } from '../util/cube';
-import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT_DEV, SET_CUBES_IS_SELECTED_DEV, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, SET_GAME_MODE, ADD_TO_LEFT_CUBE, ADD_TO_RIGHT_CUBE } from './constant';
+import { CubeMap, InjectionKey, State } from "vue";
+import { createStore, Store } from "vuex";
+import {
+  DevToolTabs,
+  MOVE_FRAME_TIME,
+  FADE_FRAME_TIME,
+  MoveDirection,
+  GameMode,
+} from "../util/constant";
+import { defaultAddCube, getRandomCubeColor } from "../util/cube";
+import {
+  ADD_CUDE,
+  SET_ADD_CUBE,
+  SET_CUBE_IS_PROMPT_DEV,
+  SET_CUBES_IS_SELECTED_DEV,
+  DELETE_CUBES,
+  SET_DEV_TOOL_TAB,
+  SET_CUBE_MOVE_DIRECTION,
+  SET_CUBE_MOVE_DISTANCE,
+  SET_CUBE_MOVE_DELAY,
+  DELETE_CUBES_ACTION,
+  MOVE_CUBE,
+  MOVE_CUBES_ACTION,
+  SET_GAME_MODE,
+  ADD_TO_LEFT_CUBE,
+  ADD_TO_RIGHT_CUBE,
+} from "./constant";
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
 
 // 非公开 constant
-const SET_SHOW_COVER = 'setShowCover';
-const RESET_MOVE_CUBE = 'resetMoveCube';
-const RESET_DELETE_CUBES = 'resetDeleteCubes';
-const UPDATE_ADD_CUBE_COLORS = 'updateAddCubeColors';
+const SET_SHOW_COVER = "setShowCover";
+const RESET_MOVE_CUBE = "resetMoveCube";
+const RESET_DELETE_CUBES = "resetDeleteCubes";
+const UPDATE_ADD_CUBE_COLORS = "updateAddCubeColors";
 
 /** 新增方块颜色预览数量 */
 const addCubeColorCount = 3;
@@ -22,16 +44,17 @@ export const store = createStore<State>({
     gameMode: GameMode.helloWorld,
     cubes: [],
     deleteCubes: [],
-    cubeMap: new Map(),
+    cubeMap: new CubeMap(),
     addCube: defaultAddCube,
     devToolTab: DevToolTabs.add,
     showCover: false,
-    addCubeColors: Array(addCubeColorCount).fill(undefined).map(getRandomCubeColor)
+    addCubeColors: Array(addCubeColorCount)
+      .fill(undefined)
+      .map(getRandomCubeColor),
   },
   getters: {
     invalidPosition({ cubeMap, addCube }) {
-      const cubeKey = createCubeKey(addCube);
-      return cubeMap.has(cubeKey);
+      return cubeMap.get(addCube) !== undefined;
     },
     devToolTabIsAdd({ devToolTab }) {
       return devToolTab === DevToolTabs.add;
@@ -58,20 +81,18 @@ export const store = createStore<State>({
     [ADD_CUDE](state, cube) {
       const { cubes, cubeMap } = state;
       cubes.push(cube);
-      const cubeKey = createCubeKey(cube);
-      cubeMap.set(cubeKey, cube);
+      cubeMap.set(cube);
     },
 
     [DELETE_CUBES](state, deleteCubes) {
       const { cubes, cubeMap } = state;
       const stateDeleteCubes = [];
       for (const cube of deleteCubes) {
-        const cubeKey = createCubeKey(cube);
-        const stateCube = cubeMap.get(cubeKey);
+        const stateCube = cubeMap.get(cube);
         stateCube!.isPromptDev = false;
         stateCube!.isSelectedDev = false;
         stateDeleteCubes.push(stateCube!);
-        cubeMap.delete(cubeKey);
+        cubeMap.remove(cube);
         cubes.splice(cubes.indexOf(cube), 1);
       }
       state.deleteCubes = stateDeleteCubes;
@@ -83,9 +104,8 @@ export const store = createStore<State>({
     [SET_ADD_CUBE](state, addCube) {
       state.addCube = { ...addCube };
     },
-    [SET_CUBE_IS_PROMPT_DEV](state, { cube, isPromptDev }) {
-      const cubeKey = createCubeKey(cube);
-      const stateCube = state.cubeMap.get(cubeKey);
+    [SET_CUBE_IS_PROMPT_DEV]({ cubeMap }, { cube, isPromptDev }) {
+      const stateCube = cubeMap.get(cube);
       stateCube!.isPromptDev = isPromptDev;
     },
     [SET_CUBES_IS_SELECTED_DEV](state, cubes) {
@@ -94,29 +114,24 @@ export const store = createStore<State>({
         cube.isSelectedDev = false;
       }
       for (const cube of cubes) {
-        const cubeKey = createCubeKey(cube);
-        const stateCube = state.cubeMap.get(cubeKey);
+        const stateCube = state.cubeMap.get(cube);
         stateCube!.isSelectedDev = true;
       }
     },
 
     [SET_CUBE_MOVE_DIRECTION](state, { cube, moveDirection }) {
-      const cubeKey = createCubeKey(cube);
-      const stateCube = state.cubeMap.get(cubeKey);
+      const stateCube = state.cubeMap.get(cube);
       stateCube!.moveDirection = moveDirection;
     },
     [SET_CUBE_MOVE_DISTANCE](state, { cube, moveDistance }) {
-      const cubeKey = createCubeKey(cube);
-      const stateCube = state.cubeMap.get(cubeKey);
+      const stateCube = state.cubeMap.get(cube);
       stateCube!.moveDistance = moveDistance;
     },
     [SET_CUBE_MOVE_DELAY](state, { cube, moveDelay }) {
-      const cubeKey = createCubeKey(cube);
-      const stateCube = state.cubeMap.get(cubeKey);
+      const stateCube = state.cubeMap.get(cube);
       stateCube!.moveDelay = moveDelay;
     },
     [MOVE_CUBE](state, cube) {
-      const oldCubeKey = createCubeKey(cube);
       const { cubeMap } = state;
       // 更新位置
       switch (cube.moveDirection) {
@@ -131,11 +146,10 @@ export const store = createStore<State>({
           break;
       }
       // 更新 map
-      if (cubeMap.get(oldCubeKey) === cube) {
-        cubeMap.delete(oldCubeKey);
+      if (cubeMap.get(cube) === cube) {
+        cubeMap.remove(cube);
       }
-      const newCubeKey = createCubeKey(cube);
-      cubeMap.set(newCubeKey, cube);
+      cubeMap.set(cube);
     },
     [RESET_MOVE_CUBE](_, cube) {
       // 重置方块状态
@@ -152,7 +166,7 @@ export const store = createStore<State>({
       // TODO 添加调用
       state.addCubeColors.shift();
       state.addCubeColors.push(getRandomCubeColor());
-    }
+    },
   },
   actions: {
     [DELETE_CUBES_ACTION](store, deleteCubes) {
@@ -170,12 +184,15 @@ export const store = createStore<State>({
 
       const { cubeMap } = store.state;
       for (const cube of moveCubes) {
-        const cubeKey = createCubeKey(cube);
-        const stateCube = (cubeMap.get(cubeKey) as Cube);
+        const stateCube = cubeMap.get(cube);
         const delayTime = cube.moveDelay * MOVE_FRAME_TIME;
-        setTimeout(() => { store.commit(MOVE_CUBE, stateCube); }, delayTime);
+        setTimeout(() => {
+          store.commit(MOVE_CUBE, stateCube);
+        }, delayTime);
         const totalTime = cube.moveDistance * MOVE_FRAME_TIME + delayTime;
-        setTimeout(() => { store.commit(RESET_MOVE_CUBE, stateCube); }, totalTime);
+        setTimeout(() => {
+          store.commit(RESET_MOVE_CUBE, stateCube);
+        }, totalTime);
       }
 
       let maxMoveTime = 0;
@@ -195,7 +212,7 @@ export const store = createStore<State>({
       // TODO
     },
   },
-  strict: process.env.NODE_ENV !== 'production'
+  strict: process.env.NODE_ENV !== "production",
 });
 
 export function getStore() {
