@@ -3,7 +3,7 @@ import { Cube, InjectionKey, State } from 'vue';
 import { createStore, Store } from 'vuex';
 import { DevToolTabs, MOVE_FRAME_TIME, FADE_FRAME_TIME, MoveDirection, GameMode } from '../util/constant';
 import { defaultAddCube, createCubeKey, getRandomCubeColor } from '../util/cube';
-import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT_DEV, SET_CUBES_IS_SELECTED_DEV, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, SET_GAME_MODE } from './constant';
+import { ADD_CUDE, SET_ADD_CUBE, SET_CUBE_IS_PROMPT_DEV, SET_CUBES_IS_SELECTED_DEV, DELETE_CUBES, SET_DEV_TOOL_TAB, SET_CUBE_MOVE_DIRECTION, SET_CUBE_MOVE_DISTANCE, SET_CUBE_MOVE_DELAY, DELETE_CUBES_ACTION, MOVE_CUBE, MOVE_CUBES_ACTION, SET_GAME_MODE, ADD_TO_LEFT_CUBE, ADD_TO_RIGHT_CUBE } from './constant';
 
 // define injection key
 export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
@@ -186,6 +186,13 @@ export const store = createStore<State>({
       setTimeout(() => {
         store.commit(SET_SHOW_COVER, false);
       }, cartoonTimeout);
+    },
+
+    [ADD_TO_RIGHT_CUBE](store, x: number) {
+      // TODO
+    },
+    [ADD_TO_LEFT_CUBE](store, y: number) {
+      // TODO
     },
   },
   strict: process.env.NODE_ENV !== 'production'
