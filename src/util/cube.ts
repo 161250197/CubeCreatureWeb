@@ -52,15 +52,17 @@ export function createCubeKey({ x, y, z }: Cube) {
   return [x, y, z].join("-");
 }
 
+const cubeRowCountPlusOne = cubeRowCount + 1;
+
 export class CubeMap {
   private cubeMatrixs: Array<Array<Array<undefined | Cube>>>;
   constructor() {
-    this.cubeMatrixs = Array(cubeRowCount)
+    this.cubeMatrixs = Array(cubeRowCountPlusOne)
       .fill(undefined)
       .map(() =>
-        Array(cubeRowCount)
+        Array(cubeRowCountPlusOne)
           .fill(undefined)
-          .map(() => Array(cubeRowCount).fill(undefined))
+          .map(() => Array(cubeRowCountPlusOne).fill(undefined))
       );
   }
   remove({ x, y, z }: Location3d) {

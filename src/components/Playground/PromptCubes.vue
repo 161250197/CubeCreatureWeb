@@ -4,7 +4,7 @@
     :key="index"
     :cube="cube"
     :isValidPrompt="isValidPromptToLeft(cube.y)"
-    :background="addCubeColor"
+    :background="nextCubeColor"
     @prompCubeClick="addToLeftCube(cube.y)"
     isPrompt
     isToLeft
@@ -17,7 +17,7 @@
     :key="index"
     :cube="cube"
     :isValidPrompt="isValidPromptToRight(cube.x)"
-    :background="addCubeColor"
+    :background="nextCubeColor"
     @prompCubeClick="addToRightCube(cube.x)"
     isPrompt
   >
@@ -26,14 +26,18 @@
 </template>
 
 <script setup lang="ts">
-import { CUBE_SIZE_PX, HALF_CUBE_SIZE_PX } from "../../util/constant";
-import { cubeRowCount } from "../../util/cube";
+import {
+  CUBE_SIZE_PX,
+  HALF_CUBE_SIZE_PX,
+  MoveDirection,
+} from "../../util/constant";
+import { cubeRowCount, createCube } from "../../util/cube";
 import { getStore } from "../../store/store";
 import { Location3d } from "vue";
-import { ADD_TO_LEFT_CUBE, ADD_TO_RIGHT_CUBE } from "../../store/constant";
+import { ADD_CUDE } from "../../store/constant";
 
 const store = getStore();
-const addCubeColor = computed(() => store.state.addCubeColors[0]);
+const nextCubeColor = computed(() => store.getters.nextCubeColor);
 const cubeMap = computed(() => store.state.cubeMap);
 
 const toLeftCubes = Array(cubeRowCount)
@@ -44,7 +48,7 @@ const toLeftCubes = Array(cubeRowCount)
 
 const cubeSlidewayToLeftStyle = computed(() => {
   return {
-    background: unref(addCubeColor),
+    background: unref(nextCubeColor),
     transform: `rotateX(-90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, ${CUBE_SIZE_PX})`,
     width: "100%",
     height: `${cubeRowCount + 1}00%`,
@@ -59,7 +63,7 @@ const toRightCubes = Array(cubeRowCount)
 
 const cubeSlidewayToRightStyle = computed(() => {
   return {
-    background: unref(addCubeColor),
+    background: unref(nextCubeColor),
     transform: `rotateX(90deg) translate3D(0, -${HALF_CUBE_SIZE_PX}, -${CUBE_SIZE_PX})`,
     width: `${cubeRowCount + 1}00%`,
     height: "100%",
@@ -67,11 +71,27 @@ const cubeSlidewayToRightStyle = computed(() => {
 });
 
 function addToLeftCube(y: number) {
-  store.dispatch(ADD_TO_LEFT_CUBE, y);
+  const cube = createCube(
+    cubeRowCount,
+    y,
+    0,
+    unref(nextCubeColor),
+    false,
+    MoveDirection.left
+  );
+  store.dispatch(ADD_CUDE, cube);
 }
 
 function addToRightCube(x: number) {
-  store.dispatch(ADD_TO_RIGHT_CUBE, x);
+  const cube = createCube(
+    x,
+    cubeRowCount,
+    0,
+    unref(nextCubeColor),
+    false,
+    MoveDirection.right
+  );
+  store.dispatch(ADD_CUDE, cube);
 }
 
 function isValidPrompt(createLocationFunc: (num: number) => Location3d) {

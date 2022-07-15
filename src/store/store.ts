@@ -1,5 +1,5 @@
 // store.ts
-import { InjectionKey, State } from "vue";
+import { Cube, InjectionKey, State } from "vue";
 import { createStore, Store } from "vuex";
 import {
   DevToolTabs,
@@ -23,8 +23,6 @@ import {
   MOVE_CUBE,
   MOVE_CUBES_ACTION,
   SET_GAME_MODE,
-  ADD_TO_LEFT_CUBE,
-  ADD_TO_RIGHT_CUBE,
 } from "./constant";
 
 // define injection key
@@ -67,6 +65,9 @@ export const store = createStore<State>({
     },
     isGameMode({ gameMode }) {
       return gameMode === GameMode.game;
+    },
+    nextCubeColor({ addCubeColors }) {
+      return addCubeColors[0];
     },
   },
   mutations: {
@@ -204,12 +205,12 @@ export const store = createStore<State>({
       }, cartoonTimeout);
     },
 
-    [ADD_TO_RIGHT_CUBE](store, x: number) {
+    [ADD_CUDE](store, cube: Cube) {
+      store.commit(SET_ADD_CUBE, cube);
+      store.commit(ADD_CUDE, cube);
+
       // TODO
-      store.commit(UPDATE_ADD_CUBE_COLORS);
-    },
-    [ADD_TO_LEFT_CUBE](store, y: number) {
-      // TODO
+
       store.commit(UPDATE_ADD_CUBE_COLORS);
     },
   },

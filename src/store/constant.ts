@@ -20,5 +20,3 @@ export const SET_GAME_MODE = "setGameMode";
 // action
 export const DELETE_CUBES_ACTION = "deleteCubesAction";
 export const MOVE_CUBES_ACTION = "moveCubesAction";
-export const ADD_TO_LEFT_CUBE = "addToLeftCube";
-export const ADD_TO_RIGHT_CUBE = "addToRightCube";
