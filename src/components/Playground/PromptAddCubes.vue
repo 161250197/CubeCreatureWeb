@@ -41,6 +41,7 @@ const addCubeColors = computed(() => store.state.addCubeColors);
     align-items: center;
     width: 300px;
     height: 120px;
+    position: fixed;
   }
 }
 </style>
