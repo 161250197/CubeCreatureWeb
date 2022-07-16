@@ -14,6 +14,7 @@ import {
   defaultAddCube,
   getRandomCubeColor,
   calDeleteCubes,
+  calFallCubes,
 } from "../util/cube";
 import {
   ADD_CUDE,
@@ -141,6 +142,10 @@ export const store = createStore<State>({
     },
     [MOVE_CUBE](state, cube) {
       const { cubeMap } = state;
+      // 更新 map
+      if (cubeMap.get(cube) === cube) {
+        cubeMap.remove(cube);
+      }
       // 更新位置
       switch (cube.moveDirection) {
         case MoveDirection.down:
@@ -152,10 +157,6 @@ export const store = createStore<State>({
         case MoveDirection.left:
           cube.x = Math.max(cube.x - cube.moveDistance, 0);
           break;
-      }
-      // 更新 map
-      if (cubeMap.get(cube) === cube) {
-        cubeMap.remove(cube);
       }
       cubeMap.set(cube);
     },
@@ -184,8 +185,30 @@ export const store = createStore<State>({
       setTimeout(() => {
         store.commit(RESET_DELETE_CUBES, false);
 
-        // TODO 检查下落方块
-        store.commit(SET_SHOW_COVER, false);
+        const setCubeMoveDirection = function (
+          cube: Cube,
+          moveDirection: MoveDirection
+        ) {
+          store.commit(SET_CUBE_MOVE_DIRECTION, { cube, moveDirection });
+        };
+        const setCubeMoveDistance = function (
+          cube: Cube,
+          moveDistance: number
+        ) {
+          store.commit(SET_CUBE_MOVE_DISTANCE, { cube, moveDistance });
+        };
+
+        const fallCubes = calFallCubes(
+          deleteCubes,
+          store.state.cubeMap,
+          setCubeMoveDirection,
+          setCubeMoveDistance
+        );
+        if (fallCubes.length) {
+          store.dispatch(MOVE_CUBES_ACTION, fallCubes);
+        } else {
+          store.commit(SET_SHOW_COVER, false);
+        }
       }, FADE_FRAME_TIME);
     },
     [MOVE_CUBES_ACTION](store, moveCubes) {
