@@ -160,7 +160,7 @@ export function calDeleteCubes(moveCubes: Cube[], cubeMap: CubeMap) {
       const sameColorCubes = [cube];
 
       // #region BFS
-      const unvisited = Array(cubeRowCount)
+      const unvisited: boolean[][][] = Array(cubeRowCount)
         .fill(undefined)
         .map(() =>
           Array(cubeRowCount)
@@ -200,6 +200,7 @@ export function calDeleteCubes(moveCubes: Cube[], cubeMap: CubeMap) {
           checkAdjacentSameColorCube({ ...position, x: x + 1 });
           checkAdjacentSameColorCube({ ...position, y: y - 1 });
           checkAdjacentSameColorCube({ ...position, y: y + 1 });
+          checkAdjacentSameColorCube({ ...position, z: z - 1 });
           checkAdjacentSameColorCube({ ...position, z: z + 1 });
         }
         checkPositions = newCheckPositions;
@@ -213,4 +214,42 @@ export function calDeleteCubes(moveCubes: Cube[], cubeMap: CubeMap) {
   }
 
   return deleteCubes;
+}
+
+/** 计算方块下落 */
+export function calFallCubes(
+  deleteCubes: Cube[],
+  cubeMap: CubeMap,
+  setCubeMoveDirection: (cube: Cube, moveDirection: MoveDirection) => void,
+  setCubeMoveDistance: (cube: Cube, moveDistance: number) => void
+) {
+  const fallCubes: Cube[] = [];
+
+  const unchecked: boolean[][] = Array(cubeRowCount)
+    .fill(undefined)
+    .map(() => Array(cubeRowCount).fill(true));
+
+  for (const { x, y } of deleteCubes) {
+    if (unchecked[x][y]) {
+      unchecked[x][y] = false;
+
+      /** 下落的最终z位置 */
+      let destinationZ = 0;
+
+      for (let z = 0; z < cubeRowCount; z++) {
+        const position = { x, y, z };
+        if (!cubeMap.isEmpty(position)) {
+          const cube = cubeMap.get(position)!;
+          if (z !== destinationZ) {
+            setCubeMoveDirection(cube, MoveDirection.down);
+            setCubeMoveDistance(cube, z - destinationZ);
+            fallCubes.push(cube);
+          }
+          destinationZ++;
+        }
+      }
+    }
+  }
+
+  return fallCubes;
 }
