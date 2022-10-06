@@ -12,7 +12,9 @@ const store = getStore();
 const cubeCount = computed(() => store.getters.cubeCount);
 
 function changeGameModeDev() {
-  store.commit(SET_GAME_MODE, GameMode.dev);
+  if (process.env.NODE_ENV !== "production") {
+    store.commit(SET_GAME_MODE, GameMode.dev);
+  }
 }
 
 function checkEmpty() {
