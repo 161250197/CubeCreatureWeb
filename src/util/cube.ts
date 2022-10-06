@@ -253,3 +253,48 @@ export function calFallCubes(
 
   return fallCubes;
 }
+
+let defaultCubeCount = 15;
+const MAX_DEFAULT_CUBE_COUNT = Math.floor(Math.pow(cubeRowCount - 1, 3));
+
+/** 生成默认方块组 */
+export function createDefaultCubes() {
+  const cubes: Cube[] = [];
+  const moveDelayMetric = Array(cubeRowCount)
+    .fill(undefined)
+    .map(() => Array(cubeRowCount).fill(0));
+
+  function randomPosition() {
+    // 不在最外层生成
+    return Math.floor(Math.random() * (cubeRowCount - 1));
+  }
+
+  for (let i = 0; i < defaultCubeCount; i++) {
+    let x = randomPosition();
+    let y = randomPosition();
+    let z = moveDelayMetric[x][y];
+    // 查找可以放置的方块位置
+    while (z === cubeRowCount) {
+      y++;
+      if (y === cubeRowCount) {
+        y = 0;
+        x++;
+        if (x === cubeRowCount) {
+          x = 0;
+        }
+      }
+      z = moveDelayMetric[x][y];
+    }
+    moveDelayMetric[x][y]++;
+
+    const cube = createCube(x, y, z, getRandomCubeColor());
+    cubes.push(cube);
+  }
+
+  // 难度逐渐提升
+  if (defaultCubeCount < MAX_DEFAULT_CUBE_COUNT) {
+    defaultCubeCount += cubeRowCount;
+  }
+
+  return cubes;
+}

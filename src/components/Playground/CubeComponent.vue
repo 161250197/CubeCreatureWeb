@@ -84,5 +84,25 @@ const transformTop = `rotateX(90deg) translateZ(${HALF_CUBE_SIZE_PX})`;
     opacity: 0;
   }
 }
+
+.to-show {
+  .face {
+    animation: show e(%("%ss", (@fadeFrameTime))) linear 0s 1 forwards;
+  }
+}
+
+@keyframes delete {
+  from {
+    opacity: 0.2;
+  }
+
+  10% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 // #endregion
 </style>

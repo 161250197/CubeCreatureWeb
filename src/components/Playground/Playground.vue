@@ -11,6 +11,12 @@
         :cube="cube"
         isToDelete
       />
+      <ChessBoardCube
+        v-for="cube of toShowCubes"
+        :key="cube.key"
+        :cube="cube"
+        isToDelete
+      />
       <ChessBoardCube v-if="showAddCube" :cube="addCube" />
       <PromptCubes v-if="isGameMode" />
     </div>
@@ -22,6 +28,7 @@ import { getStore } from "../../store/store";
 const store = getStore();
 const cubes = computed(() => store.state.cubes);
 const deleteCubes = computed(() => store.state.deleteCubes);
+const toShowCubes = computed(() => store.state.toShowCubes);
 const addCube = computed(() => store.state.addCube);
 /** 合法的添加方块位置 */
 const showAddCube = computed(

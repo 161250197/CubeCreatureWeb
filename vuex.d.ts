@@ -9,6 +9,7 @@ declare module "@vue/runtime-core" {
     gameMode: GameMode;
     cubes: Cube[];
     deleteCubes: Cube[];
+    toShowCubes: Cube[];
     cubeMap: CubeMap;
     addCube: Cube;
     devToolTab: DevToolTabs;

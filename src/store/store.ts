@@ -1,4 +1,5 @@
 // store.ts
+import { cloneDeep } from "lodash";
 import { Cube, InjectionKey, State } from "vue";
 import { createStore, Store } from "vuex";
 import {
@@ -15,6 +16,7 @@ import {
   getRandomCubeColor,
   calDeleteCubes,
   calFallCubes,
+  createDefaultCubes,
 } from "../util/cube";
 import {
   ADD_CUDE,
@@ -31,6 +33,7 @@ import {
   MOVE_CUBES_ACTION,
   SET_GAME_MODE,
   ADD_CUDE_ACTION,
+  ADD_DEFAULT_CUBES,
 } from "./constant";
 
 // define injection key
@@ -41,6 +44,9 @@ const SET_SHOW_COVER = "setShowCover";
 const RESET_MOVE_CUBE = "resetMoveCube";
 const RESET_DELETE_CUBES = "resetDeleteCubes";
 const UPDATE_ADD_CUBE_COLORS = "updateAddCubeColors";
+const SET_CUBES = "setCubes";
+const SET_CUBE_MAP = "setCubeMap";
+const SET_TO_SHOW_CUBES = "setToShowCubes";
 
 /** 新增方块颜色预览数量 */
 const addCubeColorCount = 3;
@@ -50,6 +56,7 @@ export const store = createStore<State>({
     gameMode: GameMode.game,
     cubes: [],
     deleteCubes: [],
+    toShowCubes: [],
     cubeMap: new CubeMap(),
     addCube: defaultAddCube,
     devToolTab: DevToolTabs.add,
@@ -175,6 +182,18 @@ export const store = createStore<State>({
       state.addCubeColors.shift();
       state.addCubeColors.push(getRandomCubeColor());
     },
+
+    [SET_CUBES](state, cubes: Cube[]) {
+      state.cubes = cubes;
+    },
+
+    [SET_CUBE_MAP](state, cubeMap: CubeMap) {
+      state.cubeMap = cubeMap;
+    },
+
+    [SET_TO_SHOW_CUBES](state, toShowCubes: Cube[]) {
+      state.toShowCubes = toShowCubes;
+    },
   },
   actions: {
     [DELETE_CUBES_ACTION](store, deleteCubes) {
@@ -205,13 +224,13 @@ export const store = createStore<State>({
           setCubeMoveDistance
         );
         if (fallCubes.length) {
-          store.dispatch(MOVE_CUBES_ACTION, fallCubes);
+          store.dispatch(MOVE_CUBES_ACTION, { moveCubes: fallCubes });
         } else {
           store.commit(SET_SHOW_COVER, false);
         }
       }, FADE_FRAME_TIME);
     },
-    [MOVE_CUBES_ACTION](store, moveCubes) {
+    [MOVE_CUBES_ACTION](store, { moveCubes, noCheckDelete = false }) {
       store.commit(SET_SHOW_COVER, true);
 
       const { cubeMap } = store.state;
@@ -233,7 +252,10 @@ export const store = createStore<State>({
       }
       const cartoonTimeout = maxMoveTime * MOVE_FRAME_TIME;
       setTimeout(() => {
-        const deleteCubes = calDeleteCubes(moveCubes, cubeMap);
+        // 初始化时不进行删除检查
+        const deleteCubes = noCheckDelete
+          ? []
+          : calDeleteCubes(moveCubes, cubeMap);
 
         if (deleteCubes.length) {
           store.dispatch(DELETE_CUBES_ACTION, deleteCubes);
@@ -276,9 +298,30 @@ export const store = createStore<State>({
         });
       }
 
-      store.dispatch(MOVE_CUBES_ACTION, moveCubes);
+      store.dispatch(MOVE_CUBES_ACTION, { moveCubes });
 
       store.commit(UPDATE_ADD_CUBE_COLORS);
+    },
+    /** 添加默认方块
+     * 当棋盘上没有方块时自动添加新方块
+     */
+    [ADD_DEFAULT_CUBES](store) {
+      store.commit(SET_SHOW_COVER, true);
+
+      const cubes = cloneDeep(createDefaultCubes());
+      store.commit(SET_TO_SHOW_CUBES, cubes);
+
+      const cubeMap = new CubeMap();
+      for (const cube of cubes) {
+        cubeMap.set(cube);
+      }
+
+      store.commit(SET_CUBE_MAP, cubeMap);
+      setTimeout(() => {
+        store.commit(SET_TO_SHOW_CUBES, []);
+        store.commit(SET_CUBES, cubes);
+        store.commit(SET_SHOW_COVER, false);
+      }, FADE_FRAME_TIME);
     },
   },
   strict: process.env.NODE_ENV !== "production",

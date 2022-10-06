@@ -11,6 +11,7 @@
       prompt: cube.isPromptDev,
       selected: cube.isSelectedDev,
       'to-delete': isToDelete,
+      'to-show': isToShow,
       'is-prompt': isPrompt,
       'is-valid-prompt': isValidPrompt,
       [`transition-${cube.moveDistance}`]: cube.moveDistance,
@@ -31,6 +32,8 @@ const props = defineProps({
   cube: Object, // 暂时不支持复杂对象类型
   /** 将要删除 */
   isToDelete: Boolean,
+  /** 将要显示 */
+  isToShow: Boolean,
   isPrompt: Boolean,
   isValidPrompt: Boolean,
   background: String,
