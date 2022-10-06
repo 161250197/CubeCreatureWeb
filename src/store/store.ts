@@ -47,7 +47,7 @@ const addCubeColorCount = 3;
 
 export const store = createStore<State>({
   state: {
-    gameMode: GameMode.helloWorld,
+    gameMode: GameMode.game,
     cubes: [],
     deleteCubes: [],
     cubeMap: new CubeMap(),
