@@ -9,7 +9,7 @@ import { ADD_DEFAULT_CUBES, SET_GAME_MODE } from "../../store/constant";
 import { getStore } from "../../store/store";
 import { GameMode } from "../../util/constant";
 const store = getStore();
-const cubeCount = computed(() => store.state.cubes.length)
+const cubeCount = computed(() => store.getters.cubeCount);
 
 function changeGameModeDev() {
   store.commit(SET_GAME_MODE, GameMode.dev);
@@ -17,11 +17,11 @@ function changeGameModeDev() {
 
 function checkEmpty() {
   if (cubeCount.value === 0) {
-    store.dispatch(ADD_DEFAULT_CUBES)
+    store.dispatch(ADD_DEFAULT_CUBES);
   }
 }
 
-onMounted(checkEmpty)
+onMounted(checkEmpty);
 </script>
 
 <style scoped lang="less"></style>

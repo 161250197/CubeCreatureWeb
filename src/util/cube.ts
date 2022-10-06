@@ -1,3 +1,4 @@
+import { uniq } from "lodash";
 import { Cube, Position3d } from "vue";
 import { MoveDirection } from "./constant";
 
@@ -39,9 +40,13 @@ export const cubeColors = [
 ];
 export const defaultCubeColor = cubeColors[0];
 
-export function getRandomCubeColor() {
-  const randomCubeColorIndex = Math.floor(Math.random() * cubeColors.length);
-  return cubeColors[randomCubeColorIndex];
+export function createCubeColors(cubes: Cube[]) {
+  return uniq(cubes.map(({ color }) => color));
+}
+
+export function getRandomCubeColor(colors = cubeColors) {
+  const randomCubeColorIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomCubeColorIndex];
 }
 
 /** 默认添加方块位置 */

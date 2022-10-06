@@ -17,6 +17,7 @@ import {
   calDeleteCubes,
   calFallCubes,
   createDefaultCubes,
+  createCubeColors,
 } from "../util/cube";
 import {
   ADD_CUDE,
@@ -43,7 +44,9 @@ export const STORE_KEY: InjectionKey<Store<State>> = Symbol();
 const SET_SHOW_COVER = "setShowCover";
 const RESET_MOVE_CUBE = "resetMoveCube";
 const RESET_DELETE_CUBES = "resetDeleteCubes";
+const INIT_ADD_CUBE_COLORS = "initAddCubeColors";
 const UPDATE_ADD_CUBE_COLORS = "updateAddCubeColors";
+const CHECK_ADD_CUBE_COLORS = "checkAddCubeColors";
 const SET_CUBES = "setCubes";
 const SET_CUBE_MAP = "setCubeMap";
 const SET_TO_SHOW_CUBES = "setToShowCubes";
@@ -61,11 +64,12 @@ export const store = createStore<State>({
     addCube: defaultAddCube,
     devToolTab: DevToolTabs.add,
     showCover: false,
-    addCubeColors: Array(addCubeColorCount)
-      .fill(undefined)
-      .map(getRandomCubeColor),
+    addCubeColors: [],
   },
   getters: {
+    cubeCount({ cubes }) {
+      return cubes.length;
+    },
     invalidPosition({ cubeMap, addCube }) {
       return !cubeMap.isEmpty(addCube);
     },
@@ -178,9 +182,26 @@ export const store = createStore<State>({
       state.gameMode = gameMode;
     },
 
+    [INIT_ADD_CUBE_COLORS](state, cubes: Cube[]) {
+      const cubeColors = createCubeColors(cubes);
+      state.addCubeColors = Array(addCubeColorCount)
+        .fill(undefined)
+        .map(() => getRandomCubeColor(cubeColors));
+    },
     [UPDATE_ADD_CUBE_COLORS](state) {
-      state.addCubeColors.shift();
-      state.addCubeColors.push(getRandomCubeColor());
+      const { cubes, addCubeColors } = state;
+      const cubeColors = createCubeColors(cubes);
+      addCubeColors.shift();
+      addCubeColors.push(getRandomCubeColor(cubeColors));
+    },
+    [CHECK_ADD_CUBE_COLORS](state) {
+      const { cubes, addCubeColors } = state;
+      const cubeColors = createCubeColors(cubes);
+      for (let i = 0; i < addCubeColorCount; i++) {
+        if (!cubeColors.includes(addCubeColors[i])) {
+          addCubeColors[i] = getRandomCubeColor(cubeColors);
+        }
+      }
     },
 
     [SET_CUBES](state, cubes: Cube[]) {
@@ -225,7 +246,10 @@ export const store = createStore<State>({
         );
         if (fallCubes.length) {
           store.dispatch(MOVE_CUBES_ACTION, { moveCubes: fallCubes });
+        } else if (store.getters.cubeCount === 0) {
+          store.dispatch(ADD_DEFAULT_CUBES);
         } else {
+          store.commit(CHECK_ADD_CUBE_COLORS);
           store.commit(SET_SHOW_COVER, false);
         }
       }, FADE_FRAME_TIME);
@@ -310,6 +334,7 @@ export const store = createStore<State>({
 
       const cubes = cloneDeep(createDefaultCubes());
       store.commit(SET_TO_SHOW_CUBES, cubes);
+      store.commit(INIT_ADD_CUBE_COLORS, cubes);
 
       const cubeMap = new CubeMap();
       for (const cube of cubes) {
