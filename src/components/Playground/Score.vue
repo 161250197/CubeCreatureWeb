@@ -4,6 +4,13 @@
     <span>当前分数：{{ score }}</span>
     <span>分数倍率：× {{ scoreMultiple }}</span>
     <span class="prompt">连续消除来增加分数倍率吧！</span>
+
+    <audio preload="none" data-time="1">
+      <source
+        src="https://img-cdn2.yespik.com/sound/00/27/10/69/271069_a800f35556edbb35170ecc874cf914e3.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
   </div>
 </template>
 

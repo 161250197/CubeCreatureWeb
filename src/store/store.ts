@@ -57,6 +57,29 @@ const RESET_SCORE_MULTIPLE = "resetScoreMultiple";
 /** 新增方块颜色预览数量 */
 const addCubeColorCount = 3;
 
+const audios = (function () {
+  function createAudio(src: string) {
+    const audio = document.createElement("audio");
+    const source = document.createElement("source");
+    source.src = src;
+    source.type = "audio/mpeg";
+    audio.appendChild(source);
+    return audio;
+  }
+  return {
+    addScore: function () {
+      createAudio(
+        "https://img-cdn2.yespik.com/sound/00/27/10/69/271069_a800f35556edbb35170ecc874cf914e3.mp3"
+      ).play();
+    },
+    nextLevel: function () {
+      createAudio(
+        "https://img-cdn2.yespik.com/sound/00/27/45/67/274567_4a8a768c1707275e0f9d193b88591156.mp3"
+      ).play();
+    },
+  };
+})();
+
 export const store = createStore<State>({
   state: {
     gameMode: GameMode.game,
@@ -99,11 +122,14 @@ export const store = createStore<State>({
   mutations: {
     // #region 关卡分数信息
     [ADD_SCORE](state, deleteCubeCount) {
+      audios.addScore();
       state.score += deleteCubeCount * state.scoreMultiple;
       state.scoreMultiple++;
     },
     [NEXT_LEVEL](state) {
+      audios.nextLevel();
       state.level++;
+      state.scoreMultiple++;
     },
     [RESET_SCORE_MULTIPLE](state) {
       state.scoreMultiple = state.level;
