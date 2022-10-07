@@ -29,6 +29,7 @@ declare module '@vue/runtime-core' {
     Playground: typeof import('./src/components/Playground/Playground.vue')['default']
     PromptAddCubes: typeof import('./src/components/Playground/PromptAddCubes.vue')['default']
     PromptCubes: typeof import('./src/components/Playground/PromptCubes.vue')['default']
+    Score: typeof import('./src/components/Playground/Score.vue')['default']
   }
 }
 

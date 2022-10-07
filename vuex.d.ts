@@ -15,6 +15,9 @@ declare module "@vue/runtime-core" {
     devToolTab: DevToolTabs;
     showCover: boolean;
     addCubeColors: string[];
+    score: number;
+    scoreMultiple: number;
+    level: number;
   }
 
   type Cube = {

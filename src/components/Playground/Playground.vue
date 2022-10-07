@@ -1,6 +1,9 @@
 <template>
   <div class="playground" :class="{ 'is-dev-mode': isDevMode }">
-    <PromptAddCubes v-if="isGameMode" />
+    <template v-if="isGameMode">
+      <PromptAddCubes />
+      <Score />
+    </template>
 
     <div class="cubes-wrapper">
       <ChessBoard />

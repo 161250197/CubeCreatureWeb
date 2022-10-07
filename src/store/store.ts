@@ -50,6 +50,9 @@ const CHECK_ADD_CUBE_COLORS = "checkAddCubeColors";
 const SET_CUBES = "setCubes";
 const SET_CUBE_MAP = "setCubeMap";
 const SET_TO_SHOW_CUBES = "setToShowCubes";
+const ADD_SCORE = "addScore";
+const NEXT_LEVEL = "nextLevel";
+const RESET_SCORE_MULTIPLE = "resetScoreMultiple";
 
 /** 新增方块颜色预览数量 */
 const addCubeColorCount = 3;
@@ -65,6 +68,10 @@ export const store = createStore<State>({
     devToolTab: DevToolTabs.add,
     showCover: false,
     addCubeColors: [],
+    /** 分数倍数 */
+    scoreMultiple: 1,
+    score: 0,
+    level: 1,
   },
   getters: {
     cubeCount({ cubes }) {
@@ -90,6 +97,19 @@ export const store = createStore<State>({
     },
   },
   mutations: {
+    // #region 关卡分数信息
+    [ADD_SCORE](state, deleteCubeCount) {
+      state.score += deleteCubeCount * state.scoreMultiple;
+      state.scoreMultiple++;
+    },
+    [NEXT_LEVEL](state) {
+      state.level++;
+    },
+    [RESET_SCORE_MULTIPLE](state) {
+      state.scoreMultiple = state.level;
+    },
+    // #endregion
+
     [SET_DEV_TOOL_TAB](state, devToolTab) {
       state.devToolTab = devToolTab;
     },
@@ -217,10 +237,11 @@ export const store = createStore<State>({
     },
   },
   actions: {
-    [DELETE_CUBES_ACTION](store, deleteCubes) {
+    [DELETE_CUBES_ACTION](store, deleteCubes: Cube[]) {
       store.commit(SET_SHOW_COVER, true);
 
       store.commit(DELETE_CUBES, deleteCubes);
+      store.commit(ADD_SCORE, deleteCubes.length);
 
       setTimeout(() => {
         store.commit(RESET_DELETE_CUBES, false);
@@ -245,16 +266,23 @@ export const store = createStore<State>({
           setCubeMoveDistance
         );
         if (fallCubes.length) {
-          store.dispatch(MOVE_CUBES_ACTION, { moveCubes: fallCubes });
+          store.dispatch(MOVE_CUBES_ACTION, {
+            moveCubes: fallCubes,
+            resetScoreMultiple: false,
+          });
         } else if (store.getters.cubeCount === 0) {
           store.dispatch(ADD_DEFAULT_CUBES);
+          store.commit(NEXT_LEVEL);
         } else {
           store.commit(CHECK_ADD_CUBE_COLORS);
           store.commit(SET_SHOW_COVER, false);
         }
       }, FADE_FRAME_TIME);
     },
-    [MOVE_CUBES_ACTION](store, { moveCubes, noCheckDelete = false }) {
+    [MOVE_CUBES_ACTION](
+      store,
+      { moveCubes, noCheckDelete = false, resetScoreMultiple = true }
+    ) {
       store.commit(SET_SHOW_COVER, true);
 
       const { cubeMap } = store.state;
@@ -286,6 +314,10 @@ export const store = createStore<State>({
         } else {
           store.commit(CHECK_ADD_CUBE_COLORS);
           store.commit(SET_SHOW_COVER, false);
+          // 滑动后无消除，重置分数倍率
+          if (resetScoreMultiple) {
+            store.commit(RESET_SCORE_MULTIPLE);
+          }
         }
       }, cartoonTimeout);
     },
