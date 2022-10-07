@@ -284,6 +284,7 @@ export const store = createStore<State>({
         if (deleteCubes.length) {
           store.dispatch(DELETE_CUBES_ACTION, deleteCubes);
         } else {
+          store.commit(CHECK_ADD_CUBE_COLORS);
           store.commit(SET_SHOW_COVER, false);
         }
       }, cartoonTimeout);
